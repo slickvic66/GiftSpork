@@ -11,16 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225042018) do
+ActiveRecord::Schema.define(:version => 20130225052527) do
 
   create_table "exchanges", :force => true do |t|
-    t.integer  "organizer_id"
     t.string   "name"
     t.date     "match_date"
     t.date     "exchange_date"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.decimal  "price",         :precision => 8, :scale => 2
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "price"
   end
 
   create_table "memberships", :force => true do |t|
@@ -28,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20130225042018) do
     t.integer  "exchange_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "role"
   end
 
   create_table "profiles", :force => true do |t|
