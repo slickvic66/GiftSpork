@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  organizer_id: 1
+  name: MyString
+  match_date: 2013-02-24
+  exchange_date: 2013-02-24
+
+two:
+  organizer_id: 1
+  name: MyString
+  match_date: 2013-02-24
+  exchange_date: 2013-02-24

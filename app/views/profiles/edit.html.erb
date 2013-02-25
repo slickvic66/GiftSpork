@@ -1,0 +1,9 @@
+<h2>Edit your Giftr Profile</h2>
+<%= form_for(@profile, 
+             :url => user_profile_path(current_user)) do |f| -%>
+  <%= f.label :fname, "First Name" %>
+  <%= f.text_field :fname %>
+  <%= f.label :lname, "Last Name" %>
+  <%= f.text_field :lname %>
+  <%= f.submit "Create Profile" %> 
+<% end %>

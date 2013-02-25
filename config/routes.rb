@@ -1,6 +1,13 @@
 Giftr::Application.routes.draw do
 
-  devise_for :users
+  devise_for :users, :path => "accounts", 
+                     :path_names => { :sign_in => "login", 
+                                      :sign_out => "logout", 
+                                      :sign_up => "register" }
+
+  resources :users do
+    resource :profile
+  end
 
   root to: "static_pages#home"
 

@@ -1,0 +1,7 @@
+<% if @profile.user_id == current_user.id %>
+  <%=link_to "Edit Profile", edit_user_profile_path(current_user) %>
+  Hi, <%= @profile.fname %>.<br>
+  Welcome to your profile page!
+<% else %>
+  Not authorized to view someone else's profile
+<% end %>
