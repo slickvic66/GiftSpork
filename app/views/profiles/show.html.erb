@@ -1,4 +1,4 @@
-<% if @profile.user_id == current_user.id %>
+<% if profile_owner?(@profile) %>
   <br>
   <h1>Hi, <%= @profile.fname %></h1><br>
   <h2>Welcome to your Giftr page!</h2>
@@ -6,14 +6,14 @@
 
   <h3>Gift Exchanges You've Organized</h3>
   <ul>
-  <%= render current_user.exchanges_as_organizer %>
+  <%= render current_user.organized_exchanges %>
   </ul>
   <%= link_to "Organize an Exchange", new_exchange_path(current_user) %>
 
 
   <h3>Gift Exchanges You're Participating In</h3>
   <ul>
-  <%= render current_user.exchanges_as_participant %>
+  <%= render current_user.participationships %>
   </ul>
   <br>
 

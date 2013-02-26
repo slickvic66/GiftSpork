@@ -17,10 +17,10 @@ class ExchangesController < ApplicationController
 
   def show
     @exchange = Exchange.find(params[:id])
-    @organizer = @exchange.get_organizer
-    @participants = @exchange.get_participants
-    @organizer_name = @exchange.get_organizer_name
+    @organizer = @exchange.organizer
+    @organizer_profile = @organizer.profile
     @participant_names = @exchange.get_participant_names
+    render 'show'
   end
 
   def edit
@@ -56,7 +56,7 @@ class ExchangesController < ApplicationController
     end
 
     if exchange
-      unless exchange.list_participant_ids.include?(current_user.id)
+      unless exchange.participants.map{|p| p.id}.include?(current_user.id)
          redirect_to user_profile_path(current_user)
       end
     end

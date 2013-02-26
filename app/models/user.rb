@@ -6,18 +6,25 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
 
-  # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
   
   has_one :profile, :dependent => :destroy
+
   has_many :memberships, :dependent => :destroy
-  has_many :exchanges, :through => :memberships
 
-  def exchanges_as_organizer
-    self.exchanges.joins(:memberships).where('memberships.role = ?', 'organizer').uniq
-  end
+  has_many :participationships, 
+           :through => :memberships,
+           :source => :exchange
 
-  def exchanges_as_participant
-    self.exchanges.joins(:memberships).where('memberships.role = ?', 'participant').uniq
-  end
+  has_many :organized_exchanges, 
+           :foreign_key => :organizer_id, 
+           :class_name => "Exchange"
+
+  # past organized_exchanges
+
+  # upcoming organized_exchanges
+
+  # past participationships
+
+  # upcoming participationships
 end
