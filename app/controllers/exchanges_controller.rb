@@ -3,6 +3,16 @@ class ExchangesController < ApplicationController
   before_filter :check_participant, :only => [:show]
 
   def new
+    @exchange = Exchange.new()
+  end
+
+  def create
+    @exchange = Exchange.new(params[:exchange])
+    if @exchange.save
+      redirect_to exchange_path(@exchange.id)
+    else
+      render 'new'
+    end
   end
 
   def show
@@ -13,9 +23,24 @@ class ExchangesController < ApplicationController
     @participant_names = @exchange.get_participant_names
   end
 
+  def edit
+    @exchange = Exchange.find(params[:id])
+  end
+
+  def update
+    @exchange = Exchange.find(params[:id])
+    if @exchange.update_attributes(params[:exchange])
+      flash[:success] = "Exchange updated!"
+      redirect_to exchange_path(@exchange)
+    else
+      render 'edit'
+    end
+  end
+
   private
 
   # Makes sure a user is a participant of exchange they try to view
+  # Need test for this
   def check_participant
     begin
       exchange = Exchange.find(params[:id])
@@ -36,6 +61,5 @@ class ExchangesController < ApplicationController
       end
     end
   end
-
 
 end

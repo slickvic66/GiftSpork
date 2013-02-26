@@ -1,6 +1,7 @@
 <h2>Create Your Giftr Profile</h2>
 <%= form_for(@profile, 
              :url => user_profile_path(current_user)) do |f| -%>
+  <%= render "shared/error_messages", object: @profile %>
   <%= f.label :fname, "First Name" %>
   <%= f.text_field :fname %>
   <%= f.label :lname, "Last Name" %>
