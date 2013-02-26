@@ -9,6 +9,8 @@ Giftr::Application.routes.draw do
     resource :profile
   end
 
+  resources :exchanges
+
   root to: "static_pages#home"
 
   get "/contact", to: "static_pages#contact"

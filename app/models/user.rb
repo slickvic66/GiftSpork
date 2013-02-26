@@ -10,14 +10,14 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   
   has_one :profile, :dependent => :destroy
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
   has_many :exchanges, :through => :memberships
 
   def exchanges_as_organizer
-    self.exchanges.joins(:memberships).where('memberships.role = ?', 'organizer')
+    self.exchanges.joins(:memberships).where('memberships.role = ?', 'organizer').uniq
   end
 
   def exchanges_as_participant
-    self.exchanges.joins(:memberships).where('memberships.role = ?', 'participant')
+    self.exchanges.joins(:memberships).where('memberships.role = ?', 'participant').uniq
   end
 end

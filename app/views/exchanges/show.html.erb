@@ -1,0 +1,27 @@
+<h1>View Exchange:</h1>
+
+<% if is_organizer?(@organizer.first) %>
+  <i>Welcome Organizer!</i> <br>
+  <%= link_to "Edit Your Exchange", '#' %>
+<% end %>
+
+<h2><%= @exchange.name %> 
+    <br>
+    Organized By: 
+    <% @organizer_name.first.attributes.each_pair do |attr, value|%>
+    <%= value %>
+    <% end %>
+</h2>
+
+<h3>My Match:</h3>
+<h4><i>12 hours Until Matching</i> (Still need to Code This)</h4>
+<h3>Participants: </h3>
+<ul>
+  <% @organizer_name.each do |user|%>
+    <li><i><%= user.fname %> <%= user.lname %></i></li>
+  <% end %>
+  <% @participant_names.each do |user_obj| %>
+      <li><%= user_obj.fname%> <%= user_obj.lname %></li>
+    <% end %>
+</ul>
+<h3>4 More Invited (Still need to code this)</h3>

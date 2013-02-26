@@ -1,7 +1,24 @@
 <% if @profile.user_id == current_user.id %>
+  <br>
+  <h1>Hi, <%= @profile.fname %></h1><br>
+  <h2>Welcome to your Giftr page!</h2>
+
+
+  <h3>Gift Exchanges You've Organized</h3>
+  <ul>
+  <%= render current_user.exchanges_as_organizer %>
+  </ul>
+  <%= link_to "Organize an Exchange", new_exchange_path(current_user) %>
+
+
+  <h3>Gift Exchanges You're Participating In</h3>
+  <ul>
+  <%= render current_user.exchanges_as_participant %>
+  </ul>
+  <br>
+
+
   <%=link_to "Edit Profile", edit_user_profile_path(current_user) %>
-  Hi, <%= @profile.fname %>.<br>
-  Welcome to your profile page!
 <% else %>
   Not authorized to view someone else's profile
 <% end %>
