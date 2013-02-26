@@ -1,17 +1,1 @@
-<%= form_for @exchange do |f| -%>
-  <%= render "shared/error_messages", object: @exchange %>
-  <br>
-  <%= f.label :name, "Exchange Name" %>
-  <%= f.text_field :name %>
-  <br>
-  <%= f.label :match_date, "Invitation Acceptance Deadline" %>
-  <%= f.date_select :match_date %>
-  <br>
-  <%= f.label :exchange_date, "Date of Exchange (or Shipping Deadline)" %>
-  <%= f.date_select :exchange_date %>
-  <br>
-  <%= f.label :price, "Max Price Participants Can Spend" %>
-  <%= f.text_field :price %>
-  <br>
-  <%= f.submit "Submit" %>
-<% end -%>
+<%= render "form" %>

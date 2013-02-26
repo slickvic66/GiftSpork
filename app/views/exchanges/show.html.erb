@@ -2,7 +2,7 @@
 
 <% if is_organizer?(@organizer) %>
   <i>Welcome Organizer!</i> <br>
-  <%= link_to "Edit Your Exchange", '#' %>
+  <%= link_to "Edit Your Exchange", edit_exchange_path(@exchange) %>
 <% end %>
 
 <h2><%= @exchange.name %> 

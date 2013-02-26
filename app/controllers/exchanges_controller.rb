@@ -8,6 +8,7 @@ class ExchangesController < ApplicationController
 
   def create
     @exchange = Exchange.new(params[:exchange])
+    @exchange.organizer_id = current_user.id
     if @exchange.save
       redirect_to exchange_path(@exchange.id)
     else
@@ -39,8 +40,9 @@ class ExchangesController < ApplicationController
 
   private
 
-  # Makes sure a user is a participant of exchange they try to view
-  # Need test for this
+  # Makes sure a user is a participant or organizer of exchange they try to view
+
+  # Need rspec test for this
   def check_participant
     begin
       exchange = Exchange.find(params[:id])
@@ -56,7 +58,7 @@ class ExchangesController < ApplicationController
     end
 
     if exchange
-      unless exchange.participants.map{|p| p.id}.include?(current_user.id)
+      unless exchange.participants.map{|p| p.id}.include?(current_user.id) || exchange.organizer.id == current_user.id
          redirect_to user_profile_path(current_user)
       end
     end
