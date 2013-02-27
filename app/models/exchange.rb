@@ -14,18 +14,20 @@ class Exchange < ActiveRecord::Base
 
   has_many :matches, :dependent => :destroy
 
+  has_many :gifts, :through => :matches
+
   [ 
     :organizer_id,
-    #:exchange_date,
-    #:match_date,
+    :exchange_date,
+    :match_date,
     :name,
     :price].each{|field| validates field,
                                 :presence => true}
   
-  #validate :match_date_at_least_a_week_away, :on => :create
+  validate :match_date_at_least_a_week_away, :on => :create
   #validate :updated_match_date_must_be_tomorrow_or_later, 
            #:on => :update
-  #validate :exchange_date_at_least_three_days_after_match_date
+  validate :exchange_date_at_least_three_days_after_match_date
 
 
   # Custom Validators
