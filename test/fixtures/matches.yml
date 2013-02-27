@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  santa_id: 1
+  recipient_id: 1
+  gift_id: 1
+
+two:
+  santa_id: 1
+  recipient_id: 1
+  gift_id: 1

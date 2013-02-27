@@ -15,7 +15,6 @@
 <h4><i>12 hours Until Matching</i> (Still need to Code This)</h4>
 <h3>Participants: </h3>
 <ul>
-  <li><i><%= @organizer_profile.fname %> <%= @organizer_profile.lname %></i></li>
   <% @participant_names.each do |user_obj| %>
       <li><%= user_obj.fname%> <%= user_obj.lname %></li>
     <% end %>

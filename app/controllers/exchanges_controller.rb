@@ -10,6 +10,8 @@ class ExchangesController < ApplicationController
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
     if @exchange.save
+      # The organizer is also the first participant
+      Membership.create(user_id:current_user.id, exchange_id:@exchange.id)
       redirect_to exchange_path(@exchange.id)
     else
       render 'new'
@@ -21,7 +23,6 @@ class ExchangesController < ApplicationController
     @organizer = @exchange.organizer
     @organizer_profile = @organizer.profile
     @participant_names = @exchange.get_participant_names
-    render 'show'
   end
 
   def edit
@@ -40,9 +41,8 @@ class ExchangesController < ApplicationController
 
   private
 
-  # Makes sure a user is a participant or organizer of exchange they try to view
 
-  # Need rspec test for this
+  # Makes sure a user is a participant or organizer of exchange they try to view
   def check_participant
     begin
       exchange = Exchange.find(params[:id])
@@ -58,7 +58,7 @@ class ExchangesController < ApplicationController
     end
 
     if exchange
-      unless exchange.participants.map{|p| p.id}.include?(current_user.id) || exchange.organizer.id == current_user.id
+      unless exchange.participants.map{|p| p.id}.include?(current_user.id)
          redirect_to user_profile_path(current_user)
       end
     end

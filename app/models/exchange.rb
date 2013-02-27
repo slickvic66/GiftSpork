@@ -7,15 +7,20 @@ class Exchange < ActiveRecord::Base
              :class_name => "User"
 
   has_many :memberships, :dependent => :destroy
+  
   has_many :participants, 
            :through => :memberships, 
            :source => :user
 
-  validates :organizer_id, :presence =>true
-  #validates :exchange_date, :presence => true
-  #validates :match_date, :presence => true
-  validates :name, :presence => true
-  validates :price, :presence => true
+  has_many :matches, :dependent => :destroy
+
+  [ 
+    :organizer_id,
+    #:exchange_date,
+    #:match_date,
+    :name,
+    :price].each{|field| validates field,
+                                :presence => true}
   
   #validate :match_date_at_least_a_week_away, :on => :create
   #validate :updated_match_date_must_be_tomorrow_or_later, 
@@ -44,10 +49,9 @@ class Exchange < ActiveRecord::Base
     end
   end
 
+  # Custom queries
   def get_participant_names
      self.participants.joins(:profile).select('fname, lname')
   end
-
-  private
 
 end

@@ -34,10 +34,8 @@ categories = %w(Art Jewelry Women Men Vintage Kids)
   full_price = "#{price_num}.00"
 
   # Use rand to select categories and colors at random 
-  rando_color = rand(colors.length)
-  color = colors[rando_color]
-  rando_cat = rand(categories.length)
-  category = categories[rando_cat]
+  color = colors.sample
+  category = categories.sample
 
   picture_url = pic_urls[i]
 
