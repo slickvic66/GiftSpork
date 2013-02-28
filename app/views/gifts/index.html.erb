@@ -1,0 +1,8 @@
+<% @gifts.each do |gift| %>
+  <div class = "giftbox">
+    <%= gift.name %><br>
+    Price: $<%= gift.price %><br>
+    <img src= <%= gift.picture_url %> ><br>
+    <%= link_to "Select Gift", '#' %> 
+  </div>
+<% end %>

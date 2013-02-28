@@ -46,28 +46,16 @@ class ExchangesController < ApplicationController
     end
   end
 
+
   def make_matches
     exchange = Exchange.find_by_id(params[:id])
-    if exchange.matchedup 
-      flash[:error] = "Matches already made!"
-      redirect_to exchange_path(exchange)
-    end
-    ps = exchange.participants.shuffle
-
-    ps.each_with_index do |participant, i|
-
-      exchange.matches.build(:santa_id => participant.id,
-                             :recipient_id => ps[(i+1)%ps.length].id,
-                             :exchange_id => exchange.id)
-
-    end
-
-    if exchange.save
-      exchange.update_attributes(matchedup: true)
-      flash[:success] = "Matches created for #{exchange.name}"
+    begin
+      exchange.make_santas
+    rescue Exception => e
+      flash[:error] = e.to_s
       redirect_to exchange_path(exchange)
     else
-      flash[:error] = exchange.errors.full_messages
+      flash[:success] = "Participants successfully matched!"
       redirect_to exchange_path(exchange)
     end
   end

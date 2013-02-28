@@ -56,4 +56,24 @@ class Exchange < ActiveRecord::Base
      self.participants.joins(:profile).select('fname, lname')
   end
 
+  # Matches Constructor
+  def make_santas
+    if matchedup
+      raise "Already Matched Up"
+    end
+    
+    ps = participants.shuffle
+
+    ps.each_with_index do |participant, i|
+
+      matches.build(:santa_id => participant.id,
+                    :recipient_id => ps[(i+1)%ps.length].id)
+
+    end
+    self.matchedup = true
+    unless save
+      raise errors.full_messages
+    end
+  end
+  
 end
