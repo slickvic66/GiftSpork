@@ -1,5 +1,5 @@
 class Exchange < ActiveRecord::Base
-  attr_accessible :exchange_date, :match_date, :name, :price, :organizer_id
+  attr_accessible :exchange_date, :match_date, :name, :price, :organizer_id, :matchedup
   #after_create :make_membership
 
   belongs_to :organizer, 

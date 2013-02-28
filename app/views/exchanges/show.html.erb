@@ -2,9 +2,11 @@
 
 <% if is_organizer?(@organizer) %>
   <i>Welcome Organizer!</i> <br>
-  <%= link_to "Edit Your Exchange", edit_exchange_path(@exchange) %>
-  <br>
-  <%= link_to "Match Everyone Now!", make_matches_exchange_path, :method => :post %>
+  <% unless @exchange.matchedup %>
+    <%= link_to "Edit Your Exchange", edit_exchange_path(@exchange) %>
+    <br>
+    <%= link_to "Match Everyone Now!", make_matches_exchange_path, :method => :post %>
+  <% end %>
 <% end %>
 
 <h2><%= @exchange.name %> 
@@ -14,11 +16,33 @@
 </h2>
 
 <h3>My Match:</h3>
+
+<% if @exchange.matchedup %>
+  <h4><%= @current_recipient_profile.fname %> 
+  <%= @current_recipient_profile.lname %>
+  </h4>
+
+  <% if @current_match.first.gift_id %>
+  <div class = "giftbox">
+    <%= @current_gift.name %><br>
+    Price: $<%= @current_gift.price %><br>
+    <img src= <%= @current_gift.url %> ><br>
+    <%= link_to "Change Gift", '#' %> 
+  </div>
+  <% else %>
+    <span>You haven't gotten your match a gift yet.</span><br>
+    <%= link_to "Click to find a gift", '#' %>
+  <% end %>
+
+<% else %>
 <h4><i>12 hours Until Matching</i> (Still need to Code This)</h4>
+<% end %>
+
 <h3>Participants: </h3>
 <ul>
   <% @participant_names.each do |user_obj| %>
       <li><%= user_obj.fname%> <%= user_obj.lname %></li>
     <% end %>
 </ul>
+<!-- (After its coded) The below will dissapear if @exchange.matchedup is true -->
 <h3>4 More Invited (Still need to code this)</h3>

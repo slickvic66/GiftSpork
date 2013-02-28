@@ -24,6 +24,12 @@ class ExchangesController < ApplicationController
     @organizer = @exchange.organizer
     @organizer_profile = @organizer.profile
     @participant_names = @exchange.get_participant_names
+    if @exchange.matchedup
+      @current_match = @exchange.matches.where('santa_id = :user_id', :user_id => current_user.id)
+      @current_recipient = @current_match.first.recipient 
+      @current_recipient_profile = @current_recipient.profile
+      @current_gift = @current_match.first.gift
+    end
   end
 
   def edit
@@ -41,7 +47,59 @@ class ExchangesController < ApplicationController
   end
 
   def make_matches
-    @exchange = Exchange.find_by_id(params[:id])
+    exchange = Exchange.find_by_id(params[:id])
+    if exchange.matchedup 
+      flash[:error] = "Matches already made!"
+      redirect_to exchange_path(exchange)
+    end
+    ps = exchange.participants.shuffle
+
+    # If early match saves, but later one errors, the early one is still from a bad overall batch.  
+    #So I have to store the saved ones in an array and destroy them all if need be.
+    matches = []
+
+    ps.each_with_index do |participant, i|
+
+      # ps[i] is a santa for ps[i+1]
+      if ps[i+1]
+        match = Match.new(santa_id: participant.id, 
+                          recipient_id: ps[i+1].id,
+                          exchange_id: exchange.id)
+        if match.save
+          matches << match
+          next
+        else
+          if matches.any?
+            matches.each {|match| match.destroy}
+          end
+          flash[:error] = match.errors.full_messages
+          redirect_to exchange_path(exchange)
+          return
+        end
+
+      # ps.last is santa for ps.first
+      else
+        match = Match.new(santa_id: participant.id,
+                          recipient_id: ps[0].id,
+                          exchange_id: exchange.id)
+
+        if match.save
+          matches << match
+          next
+        else
+          if matches.any?
+            matches.each {|match| match.destroy}
+          end
+          flash[:error] = match.errors.full_messages
+          redirect_to exchange_path(exchange)
+          return
+        end
+      end
+    end
+
+    exchange.update_attributes(matchedup: true)
+    flash[:success] = "Matches created for #{exchange.name}"
+    redirect_to exchange_path(exchange)
   end
 
   def index
