@@ -12,7 +12,9 @@ Giftr::Application.routes.draw do
   resources :memberships, :only => [:create]
   resources :exchanges do
       post :make_matches, :on => :member
+      resources :gifts, :only => [:index], :on => :member
   end
+
 
   root to: "static_pages#home"
 
