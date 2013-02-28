@@ -1,0 +1,13 @@
+<% @exchanges.each do |exchange|  %>
+<h3><%= exchange.name %></h3>
+<span><b>Match Date:</b> <%= exchange.match_date %></span><br>
+<span><b>Exchange Date:</b> <%= exchange.exchange_date %></span><br>
+<span><b>Max Price:</b> <%= exchange.price %></span><br>
+<% if @new_exchanges.include?(exchange) %>
+<span><%= link_to "Join Exchange", memberships_path(:exchange_id => "#{exchange.id}"), :method => :post %></span><br>
+<% else %>
+<span><%= link_to "Already Participant", exchange_path(exchange) %></span>
+<% end %>
+<br>
+<% end %>
+

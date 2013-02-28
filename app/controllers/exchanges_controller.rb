@@ -9,9 +9,10 @@ class ExchangesController < ApplicationController
   def create
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
+    # The organizer is also the first member 
+    @exchange.memberships.build(user_id:current_user.id)
     if @exchange.save
-      # The organizer is also the first participant
-      Membership.create(user_id:current_user.id, exchange_id:@exchange.id)
+      flash[:success] = "Exchange updated"
       redirect_to exchange_path(@exchange.id)
     else
       render 'new'
@@ -37,6 +38,12 @@ class ExchangesController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def index
+    @exchanges = Exchange.all
+    @currently_participating = current_user.participations
+    @new_exchanges = @exchanges - @currently_participating
   end
 
   private

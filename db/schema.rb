@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226224253) do
+ActiveRecord::Schema.define(:version => 20130227235109) do
 
   create_table "exchanges", :force => true do |t|
     t.string   "name"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(:version => 20130226224253) do
     t.string   "price"
     t.integer  "organizer_id"
   end
+
+  add_index "exchanges", ["organizer_id"], :name => "index_exchanges_on_organizer_id"
 
   create_table "gifts", :force => true do |t|
     t.string   "name"
@@ -42,12 +44,20 @@ ActiveRecord::Schema.define(:version => 20130226224253) do
     t.integer  "exchange_id"
   end
 
+  add_index "matches", ["exchange_id"], :name => "index_matches_on_exchange_id"
+  add_index "matches", ["gift_id"], :name => "index_matches_on_gift_id"
+  add_index "matches", ["recipient_id"], :name => "index_matches_on_recipient_id"
+  add_index "matches", ["santa_id"], :name => "index_matches_on_santa_id"
+
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "exchange_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "memberships", ["exchange_id"], :name => "index_memberships_on_exchange_id"
+  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
 
   create_table "profiles", :force => true do |t|
     t.string   "fname"
@@ -61,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20130226224253) do
     t.datetime "updated_at", :null => false
     t.integer  "user_id"
   end
+
+  add_index "profiles", ["user_id"], :name => "index_profiles_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

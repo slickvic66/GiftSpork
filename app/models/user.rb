@@ -44,6 +44,27 @@ class User < ActiveRecord::Base
            :through => :recipient_matches,
            :source => :gift
 
+  # active exchanges user is participating in (post match, pre-ship)
+  def active_exchanges
+    self.participations.where(':todays_date > match_date 
+                               AND :todays_date < exchange_date', 
+                               :todays_date => Date.today)
+  end
+
+  # upcoming organized_exchange (pre-match)
+  def future_organized_exchanges
+    self.organized_exchanges.where(':todays_date < match_date', 
+                                  :todays_date => Date.today)
+  end
+
+  def matches_without_gifts  
+    self.santa_matches.where("gift_id is NULL")
+  end
+
+  def current_santa_matches
+    self.santa_matches.joins(:exchange).where("")
+  end
+
   # Gifts a user has selected on exchanges that are still open
   def selected_gifts_on_active_exchanges
     Gift.find_by_sql("Select gifts.* FROM gifts 
@@ -89,32 +110,11 @@ class User < ActiveRecord::Base
                          :user_id => self.id)
   end
 
-  # New matchings
+  # New matching ALERT
 
-  # New invitations
-
-  # active organized exchanges (post-match, pre-ship)
-
-  # active exchanges user is participating in (post match, pre-ship)
-  def active_exchanges
-    self.participations.where(':todays_date > match_date 
-                               AND :todays_date < exchange_date', 
-                               :todays_date => Date.today)
-  end
-
-  #For testing purposes because I want users for whom user has no gifts and exchanges for whom user has no gifts
-  def matches_without_gifts  
-    self.santa_matches.where("gift_id is NULL")
-  end
-
-  # Allows us to get exchange id's and user id's for people user is a santa for currently
-  def current_santa_matches
-    self.santa_matches.joins(:exchange).where("")
-  end
+  # New invitation ALERT
 
   # finished exchanges participated in
-
-  # upcoming organized_exchange (pre-match)
 
   # past gifts given
 end

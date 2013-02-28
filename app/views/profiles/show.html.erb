@@ -18,7 +18,10 @@
   <br>
 
 
-  <%=link_to "Edit Profile", edit_user_profile_path(current_user) %>
+  <%=link_to "Edit Profile", edit_user_profile_path(current_user) %>&nbsp
+  <%= link_to "All Exchanges",  exchanges_path%>
+
+
 <% else %>
   Not authorized to view someone else's profile
 <% end %>
