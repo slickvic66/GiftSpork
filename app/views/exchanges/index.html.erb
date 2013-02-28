@@ -1,5 +1,9 @@
 <% @exchanges.each do |exchange|  %>
-<h3><%= exchange.name %></h3>
+<h3><%= exchange.name %>
+<% if exchange.organizer_id == current_user.id %>
+*
+<% end %>
+</h3>
 <span><b>Match Date:</b> <%= exchange.match_date %></span><br>
 <span><b>Exchange Date:</b> <%= exchange.exchange_date %></span><br>
 <span><b>Max Price:</b> <%= exchange.price %></span><br>

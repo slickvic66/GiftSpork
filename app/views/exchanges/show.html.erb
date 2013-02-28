@@ -4,7 +4,7 @@
   <i>Welcome Organizer!</i> <br>
   <%= link_to "Edit Your Exchange", edit_exchange_path(@exchange) %>
   <br>
-  <%= button_to "Match Everyone Now!", '#' %>
+  <%= link_to "Match Everyone Now!", make_matches_exchange_path, :method => :post %>
 <% end %>
 
 <h2><%= @exchange.name %> 

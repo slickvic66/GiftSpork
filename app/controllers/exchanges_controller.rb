@@ -40,6 +40,10 @@ class ExchangesController < ApplicationController
     end
   end
 
+  def make_matches
+    @exchange = Exchange.find_by_id(params[:id])
+  end
+
   def index
     @exchanges = Exchange.all
     @currently_participating = current_user.participations

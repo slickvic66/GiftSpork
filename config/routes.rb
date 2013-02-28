@@ -10,7 +10,9 @@ Giftr::Application.routes.draw do
   end
 
   resources :memberships, :only => [:create]
-  resources :exchanges
+  resources :exchanges do
+      post :make_matches, :on => :member
+  end
 
   root to: "static_pages#home"
 
