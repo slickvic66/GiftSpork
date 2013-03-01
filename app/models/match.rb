@@ -11,6 +11,7 @@ class Match < ActiveRecord::Base
 
   belongs_to :gift
 
+  # Validation just for testing purposes
   [ 
     :exchange_id,
     :santa_id,

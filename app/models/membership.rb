@@ -1,9 +1,9 @@
 class Membership < ActiveRecord::Base
   attr_accessible :exchange_id, :user_id
-  belongs_to :exchange
-  belongs_to :user 
+  belongs_to :exchange, :inverse_of => :memberships
+  belongs_to :user, :inverse_of => :memberships
 
-  [:user_id, :exchange_id].each do |field| 
+  [:user, :exchange].each do |field| 
     validates field, :presence => true
   end
 

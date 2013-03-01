@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   
   has_one :profile, :dependent => :destroy
 
-  has_many :memberships, :dependent => :destroy
+  has_many :memberships, :dependent => :destroy,
+           :inverse_of => :user
 
   # Returns array of exchanges user is participating in
   has_many :participations, 
