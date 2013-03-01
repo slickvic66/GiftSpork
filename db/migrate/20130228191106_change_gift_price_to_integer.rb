@@ -1,7 +1,6 @@
 class ChangeGiftPriceToInteger < ActiveRecord::Migration
-  def up
-  end
-
-  def down
+  def change
+    remove_column :gifts, :price 
+    add_column :gifts, :price, :integer
   end
 end

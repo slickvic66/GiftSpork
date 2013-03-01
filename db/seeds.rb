@@ -30,8 +30,7 @@ categories = %w(Art Jewelry Women Men Vintage Kids)
   name = "Item #{i+1}"
 
   # Add one so there is no free item
-  price_num = ((i+1)*2).to_s
-  full_price = "#{price_num}.00"
+  price = ((i+1)*200)
 
   # Use rand to select categories and colors at random 
   color = colors.sample
@@ -40,7 +39,7 @@ categories = %w(Art Jewelry Women Men Vintage Kids)
   picture_url = pic_urls[i]
 
   Gift.create(name: name, 
-              price: full_price, 
+              price: price, 
               color: color, 
               picture_url: picture_url,
               category: category)

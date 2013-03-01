@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228191106) do
+ActiveRecord::Schema.define(:version => 20130301012834) do
 
   create_table "exchanges", :force => true do |t|
     t.string   "name"
@@ -19,21 +19,21 @@ ActiveRecord::Schema.define(:version => 20130228191106) do
     t.date     "exchange_date"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
-    t.string   "price"
     t.integer  "organizer_id"
     t.boolean  "matchedup",     :default => false, :null => false
+    t.integer  "max_price",     :default => 0,     :null => false
   end
 
   add_index "exchanges", ["organizer_id"], :name => "index_exchanges_on_organizer_id"
 
   create_table "gifts", :force => true do |t|
     t.string   "name"
-    t.string   "price"
     t.string   "color"
     t.string   "picture_url"
     t.string   "category"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "price"
   end
 
   create_table "matches", :force => true do |t|
