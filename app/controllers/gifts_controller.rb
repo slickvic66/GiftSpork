@@ -6,8 +6,11 @@ class GiftsController < ApplicationController
     @current_gift = current_user.gift_on_current_exchange(@exchange).first
   end
 
+  # REV: Could this be named something different than `add_gift`?
+  # Maybe `give`?
   # Pretty hacky.  Ment to be done with AJAX
   def add_gift
+    # REV: No, this query is easy in AR; you aren't using AR enough.
     match = Match.find_by_sql(["SELECT matches.* FROM matches WHERE matches.santa_id = :current_user_id AND matches.exchange_id = :this_exchange_id", :current_user_id => current_user.id, 
                           :this_exchange_id => params[:exchange_id]]).first
 

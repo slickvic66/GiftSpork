@@ -82,6 +82,9 @@ class User < ActiveRecord::Base
 
   # Returns gift (if any) a user has selected on a specific exchange
   def gift_on_current_exchange(exchange)
+    # REV: this one shouldn't be hard in AR:
+    # exchange.gifts.join(:matches).where(:matches => {:giver_id =>
+    # self.id })
     Gift.find_by_sql(["Select gifts.* FROM gifts 
                       JOIN matches ON gifts.id = matches.gift_id 
                       JOIN exchanges ON exchanges.id = matches.exchange_id 
@@ -109,6 +112,9 @@ class User < ActiveRecord::Base
 
   # Profiles of Users a person is a secret santa for on active exchanges
   def active_recipient_profiles
+    # REV: shouldn't need a nested query here; should be another JOIN.
+    # In AR: Profile.joins(:matches).where(:exchange => (start..end),
+    # :giver_id => self.id)
     Profile.find_by_sql(["SELECT profiles.* 
                          FROM profiles 
                          WHERE profiles.user_id IN 

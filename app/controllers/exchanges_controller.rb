@@ -12,6 +12,8 @@ class ExchangesController < ApplicationController
     @exchange.max_price *= 100
     # The organizer is also the first member 
     @exchange.memberships.build(user_id:current_user.id)
+
+    # REV: added a space here; got too tight.
     if @exchange.save
       flash[:success] = "Exchange updated"
       redirect_to exchange_path(@exchange.id)
@@ -22,9 +24,13 @@ class ExchangesController < ApplicationController
 
   def show
     @exchange = Exchange.find(params[:id])
+    # REV: you don't need to set all these ivars; just use the
+    # association in the view.
     @organizer = @exchange.organizer
     @organizer_profile = @organizer.profile
     @participant_names = @exchange.get_participant_names
+
+    # REV: added a space here; got too tight.
     if @exchange.matchedup
       @current_match = @exchange.matches.where('santa_id = :user_id', :user_id => current_user.id)
       @current_recipient = @current_match.first.recipient 
@@ -68,10 +74,14 @@ class ExchangesController < ApplicationController
   end
 
   private
+  # REV: two blank lines comments in this section are too long.
 
 
   # Makes sure a user is a participant or organizer of exchange they try to view
   def check_participant
+    # REV: too deeply nested. Don't even need to bother checking if
+    # exchange isn't found; just let them get a 404. Their fault for
+    # typing something dumb.
     begin
       exchange = Exchange.find(params[:id])
 
@@ -80,6 +90,7 @@ class ExchangesController < ApplicationController
       if signed_in?
         redirect_to user_profile_path(current_user)
       else
+        # REV: okay; time to remove it :-)
         # Unecessary check because this is already checked for by :authenticate_user!
         redirect_to root_path
       end
