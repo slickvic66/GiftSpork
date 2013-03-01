@@ -1,12 +1,20 @@
 <% @exchanges.each do |exchange|  %>
+<!-- REV: use your exchange partial -->
 <h3><%= exchange.name %>
+<!-- REV: view helper method -->
 <% if exchange.organizer_id == current_user.id %>
 *
 <% end %>
 </h3>
+<!-- REV: should probably be in a styled UL. This is really hard to
+     read with this indenting. -->
+<!-- REV: why is *everything* in a span? -->
 <span><b>Match Date:</b> <%= exchange.match_date %></span><br>
 <span><b>Exchange Date:</b> <%= exchange.exchange_date %></span><br>
 <span><b>Max Gift Price:</b> <%= change_to_dollars(exchange.max_price) %></span><br>
+
+<!-- REV: use whitespace judiciously. Break this from the preceding, separate concern. -->
+<!-- REV: another opportunity for a helper
 <% if @new_exchanges.include?(exchange) %>
 <span><%= link_to "Join Exchange", memberships_path(:exchange_id => "#{exchange.id}"), :method => :post %></span><br>
 <% else %>

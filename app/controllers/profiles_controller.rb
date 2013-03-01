@@ -24,6 +24,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.find_by_user_id(current_user.id)
   end
 
+  # REV: if you're going
   def update
     @profile = Profile.find_by_user_id(current_user.id)
     if @profile.update_attributes(params[:profile])

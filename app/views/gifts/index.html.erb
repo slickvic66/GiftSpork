@@ -1,9 +1,13 @@
 <h2>Gift Ideas For <%= @exchange.name %></h2>
 <% @gifts.each do |gift| %>
   <div class = "giftbox">
+    <!-- REV: inline tags like <b> should open and close on same line
+      -->
     <b><%= gift.name %>
     </b><br>
     Price: <%= change_to_dollars(gift.price) %><br>      
+    <!-- REV: indenting. Indent like ruby code; body of if/else goes
+         in two spaces-->
     <% if @current_gift && @current_gift.id == gift.id %>
     <span><i>Currently Selected</i></span><br>
     <% else %>
