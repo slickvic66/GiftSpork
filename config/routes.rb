@@ -12,7 +12,9 @@ Giftr::Application.routes.draw do
   resources :memberships, :only => [:create]
   resources :exchanges do
       post :make_matches, :on => :member
-      resources :gifts, :only => [:index], :on => :member
+      resources :gifts, :only => [:index], :on => :member do 
+        post :add_gift, :on => :member
+      end
   end
 
 

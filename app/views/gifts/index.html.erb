@@ -1,8 +1,14 @@
+<h2>Gift Ideas For <%= @exchange.name %></h2>
 <% @gifts.each do |gift| %>
   <div class = "giftbox">
-    <%= gift.name %><br>
-    Price: $<%= gift.price %><br>
+    <b><%= gift.name %>
+    </b><br>
+    Price: <%= change_to_dollars(gift.price) %><br>      
+    <% if @current_gift && @current_gift.id == gift.id %>
+    <span><i>Currently Selected</i></span><br>
+    <% else %>
+    <%= link_to "Select Gift", add_gift_exchange_gift_path(@exchange.id, gift.id), :method => :post %> <br>
+    <% end %>
     <img src= <%= gift.picture_url %> ><br>
-    <%= link_to "Select Gift", '#' %> 
   </div>
 <% end %>

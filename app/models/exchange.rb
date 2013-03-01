@@ -1,5 +1,5 @@
 class Exchange < ActiveRecord::Base
-  attr_accessible :exchange_date, :match_date, :name, :price, :organizer_id, :matchedup
+  attr_accessible :exchange_date, :match_date, :name, :max_price, :organizer_id, :matchedup
   #after_create :make_membership
 
   belongs_to :organizer, 
@@ -22,7 +22,7 @@ class Exchange < ActiveRecord::Base
     :exchange_date,
     :match_date,
     :name,
-    :price].each{|field| validates field,
+    :max_price].each{|field| validates field,
                                 :presence => true}
   
   validate :match_date_at_least_a_week_away, :on => :create
@@ -55,6 +55,10 @@ class Exchange < ActiveRecord::Base
   # Custom queries
   def get_participant_names
      self.participants.joins(:profile).select('fname, lname')
+  end
+
+  def gifts_below_max_price
+    Gift.find_by_sql(["SELECT gifts.* FROM gifts WHERE gifts.price <= :max_price", :max_price => self.max_price])
   end
 
   # Matches Constructor

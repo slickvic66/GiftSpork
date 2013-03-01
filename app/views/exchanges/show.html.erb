@@ -27,11 +27,11 @@
     <%= @current_gift.name %><br>
     Price: $<%= @current_gift.price %><br>
     <img src= <%= @current_gift.picture_url %> ><br>
-    <%= link_to "Change Gift", '#' %> 
+    <%= link_to "Change Gift", exchange_gifts_path(@exchange) %> 
   </div>
   <% else %>
     <span>You haven't gotten your match a gift yet.</span><br>
-    <%= link_to "Click to find a gift", '#' %>
+    <%= link_to "Click to find a gift", exchange_gifts_path(@exchange) %>
   <% end %>
 
 <% else %>

@@ -47,15 +47,15 @@ class User < ActiveRecord::Base
 
   # active exchanges user is participating in (post match, pre-ship)
   def active_exchanges
-    self.participations.where(':todays_date > match_date 
+    self.participations.where([':todays_date > match_date 
                                AND :todays_date < exchange_date', 
-                               :todays_date => Date.today)
+                               :todays_date => Date.today])
   end
 
   # upcoming organized_exchange (pre-match)
   def future_organized_exchanges
-    self.organized_exchanges.where(':todays_date < match_date', 
-                                  :todays_date => Date.today)
+    self.organized_exchanges.where([':todays_date < match_date', 
+                                  :todays_date => Date.today])
   end
 
   def matches_without_gifts  
@@ -63,12 +63,12 @@ class User < ActiveRecord::Base
   end
 
   def current_santa_matches
-    self.santa_matches.joins(:exchange).where("")
+    self.santa_matches.joins(:exchange).where([':todays_date > match_date AND :todays_date < exchange_date', :todays_date => Date.today])
   end
 
   # Gifts a user has selected on exchanges that are still open
   def selected_gifts_on_active_exchanges
-    Gift.find_by_sql("Select gifts.* FROM gifts 
+    Gift.find_by_sql(["Select gifts.* FROM gifts 
                       JOIN matches ON gifts.id = matches.gift_id 
                       JOIN exchanges ON exchanges.id = matches.exchange_id 
                       JOIN memberships ON exchanges.id = memberships.exchange_id 
@@ -77,12 +77,25 @@ class User < ActiveRecord::Base
                       AND exchanges.exchange_date > :todays_date 
                       AND users.id = :user_id", 
                       :todays_date => Date.today, 
-                      :user_id => self.id)
+                      :user_id => self.id])
+  end
+
+  # Returns gift (if any) a user has selected on a specific exchange
+  def gift_on_current_exchange(exchange)
+    Gift.find_by_sql(["Select gifts.* FROM gifts 
+                      JOIN matches ON gifts.id = matches.gift_id 
+                      JOIN exchanges ON exchanges.id = matches.exchange_id 
+                      JOIN memberships ON exchanges.id = memberships.exchange_id 
+                      JOIN users ON users.id = memberships.user_id 
+                      WHERE exchanges.id = :current_exchange_id
+                      AND users.id = :user_id", 
+                      :current_exchange_id => exchange.id, 
+                      :user_id => self.id])
   end
 
   # Exchages that are acvite but a user has not selected a gift for
   def active_exchanges_without_gifts
-    Exchange.find_by_sql("SELECT exchanges.* FROM exchanges  
+    Exchange.find_by_sql(["SELECT exchanges.* FROM exchanges  
                           JOIN matches ON exchanges.id = matches.exchange_id 
                           JOIN users ON matches.santa_id = users.id
                           WHERE exchanges.match_date < :todays_date 
@@ -91,12 +104,12 @@ class User < ActiveRecord::Base
                           AND users.id = matches.santa_id
                           AND matches.gift_id is NULL", 
                           :todays_date => Date.today, 
-                          :user_id => self.id)
+                          :user_id => self.id])
   end
 
   # Profiles of Users a person is a secret santa for on active exchanges
   def active_recipient_profiles
-    Profile.find_by_sql("SELECT profiles.* 
+    Profile.find_by_sql(["SELECT profiles.* 
                          FROM profiles 
                          WHERE profiles.user_id IN 
                          (
@@ -108,7 +121,7 @@ class User < ActiveRecord::Base
                           AND exchanges.exchange_date > :todays_date
                           AND matches.santa_id = :user_id)", 
                          :todays_date => Date.today,
-                         :user_id => self.id)
+                         :user_id => self.id])
   end
 
   # New matching ALERT

@@ -9,6 +9,7 @@ class ExchangesController < ApplicationController
   def create
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
+    @exchange.max_price *= 100
     # The organizer is also the first member 
     @exchange.memberships.build(user_id:current_user.id)
     if @exchange.save

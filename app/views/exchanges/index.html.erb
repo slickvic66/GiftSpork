@@ -6,7 +6,7 @@
 </h3>
 <span><b>Match Date:</b> <%= exchange.match_date %></span><br>
 <span><b>Exchange Date:</b> <%= exchange.exchange_date %></span><br>
-<span><b>Max Price:</b> <%= exchange.price %></span><br>
+<span><b>Max Gift Price:</b> <%= change_to_dollars(exchange.max_price) %></span><br>
 <% if @new_exchanges.include?(exchange) %>
 <span><%= link_to "Join Exchange", memberships_path(:exchange_id => "#{exchange.id}"), :method => :post %></span><br>
 <% else %>
