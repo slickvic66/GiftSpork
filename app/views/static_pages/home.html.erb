@@ -8,7 +8,6 @@
       <%= link_to "Get Started!", new_user_registration_path, :class => "btn btn-primary btn-large" %>
     </p>
   </div>
-    <%= render 'layouts/messages' %>
 </header>
 <div class="betwixt">
   <div class="container">
@@ -28,7 +27,7 @@
 </div>
 <div class="footer">
   <div class="container">
-    A Vic Oleinikov Joint.
+    A Victor Oleinikov Site.
     <ul class="footer-links">
       <li><%= link_to "Contact", '#' %></li>
       <li class="muted">.</li>
@@ -67,7 +66,7 @@
       $('.hiddenGifts').append(giftToRemove)
     };
 
-    setInterval(rotateActivity, 10000);
+    setInterval(rotateActivity, 20000);
 
     // Bug loses the even binding after it rotates too much
     // $('.giftItem').hover(
