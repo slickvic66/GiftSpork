@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Giftr</title>
+  <title>giftspork</title>
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="my-main">
+  <div class="navbar navbar-inverse">
+    <nav class="navbar-inner">
+      <div class="container-fluid">
+        <%= render 'layouts/navigation' %>
+      </div><!--/.nav-collapse -->
+    </nav>
+  </div>
+  <div class="container">
+    <%= render 'layouts/messages' %>
+    <%= yield %>
+    <%= debug(params) if Rails.env.development? %>
+  </div>
 
-<div class="navbar navbar-inverse">
-  <nav class="navbar-inner">
-    <div class="container-fluid">
-      <%= render 'layouts/navigation' %>
-    </div><!--/.nav-collapse -->
-  </nav>
 </div>
-<div class="container">
-  <%= render 'layouts/messages' %>
-  <%= yield %>
-
-  <%= debug(params) if Rails.env.development? %>
-</div>
-
 </body>
 </html>

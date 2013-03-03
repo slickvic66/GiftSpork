@@ -26,6 +26,7 @@
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
   background: url(washedout_bg.jpg);
+  background-size: cover;
 }
 .jumbotron h1 {
   font-size: 80px;
@@ -169,4 +170,27 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 .nav a{
   font-family: 'Sanchez', serif;
   color: #fff;
+}
+
+body {
+  background: url(green-blurred-background.jpg) no-repeat;
+  background-size: cover;
+}
+
+.container {
+  background-color: #fff;
+  opacity: 0.9;
+  padding: 15px;
+}
+
+.container h1 {
+  font-family: 'Lemon', cursive;
+} 
+
+.container h2, p, a{
+  font-family: 'Sanchez', serif;
+}
+
+.container h3 {
+  font-family: 'Sanchez', serif;
 }

@@ -13,7 +13,7 @@ class ExchangesController < ApplicationController
     # The organizer is also the first member 
     @exchange.memberships.build(user_id:current_user.id)
     if @exchange.save
-      flash[:success] = "Exchange updated"
+      flash[:success] = "Exchange created!"
       redirect_to exchange_path(@exchange.id)
     else
       render 'new'

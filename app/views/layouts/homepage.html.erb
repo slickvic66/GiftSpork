@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Giftr</title>
-  <%= stylesheet_link_tag "application", :media => "all" %>
+  <title>giftspork</title>
+  <%= stylesheet_link_tag "static_pages", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -13,15 +13,8 @@
         <%= render 'layouts/navigation' %>
       </div><!--/.nav-collapse -->
     </nav>
-  </div>
-<div id = "main" role ="main">
-  <header class="jumbotron masthead">
-    <div class="container">
-      <%= render 'layouts/messages' %>
-      <%= yield %>
-    </div>
-  </header>
-</div>
-<%= debug(params) if Rails.env.development? %>
+  </div>    
+  <%= yield %>
+  <%# debug(params) if Rails.env.development? %>
 </body>
 </html>

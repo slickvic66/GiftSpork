@@ -1,8 +1,82 @@
-<div class="container">
+<header class="jumbotron masthead">
+  <div class="container">
+    <br>
     <h1>giftspork</h1>
     <p>Gift exchanges done right!</p>
     <p></p>
     <p>
       <%= link_to "Get Started!", new_user_registration_path, :class => "btn btn-primary btn-large" %>
     </p>
+  </div>
+    <%= render 'layouts/messages' %>
+</header>
+<div class="betwixt">
+  <div class="container">
+    <br>
+  </div>
 </div>
+<div class="features">
+  <div class="container recentGifts">
+    <h2>Recently Given on giftspork</h2>
+    <div class="container-fluid giftDisplay">
+        <%= render partial: "gifts/gift", collection: @showing_gifts %>
+    </div>
+    <div class="hiddenGifts">
+      <%= render partial:"gifts/gift", collection: @recent_gifts %>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="container">
+    A Vic Oleinikov Joint.
+    <ul class="footer-links">
+      <li><%= link_to "Contact", '#' %></li>
+      <li class="muted">.</li>
+      <li><%= link_to "FAQ", '#' %></li>
+      <li class="muted">.</li>
+      <li><%= link_to "About", '#' %></li>
+      <li class="muted">.</li>
+      <li><%= link_to "Blog", '#' %></li>
+      <li class="muted">.</li>
+      <li><%= link_to "Sourcecode", 'http://www.github.com/slickvic66/giftr' %></li>
+      <li class="muted">.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    var $container = $('.giftDisplay');
+
+    $container.imagesLoaded(function() {
+      $container.masonry({
+        itemSelector: '.giftItem',
+        isAnimated: true
+      });
+    });
+
+    var i = 5
+    function rotateActivity(){
+      j = i%($('.hiddenGifts .giftItem').length);
+      console.log(j);
+      i++;
+      var giftToAppend = $('.hiddenGifts .giftItem')[j];
+      var giftToRemove = $('.giftDisplay .giftItem')[0];
+      $('.giftDisplay').masonry('remove', $(giftToRemove)).masonry('reload').append(giftToAppend).masonry("appended", $(giftToAppend))
+      // Must append the removed gift to the hidden list so it is not lost forever
+      $('.hiddenGifts').append(giftToRemove)
+    };
+
+    setInterval(rotateActivity, 10000);
+
+    // Bug loses the even binding after it rotates too much
+    // $('.giftItem').hover(
+    //   function(){
+    //   $(this).css('opacity','1.0')
+    //   },
+    //   function(){
+    //     $(this).css('opacity','0.7')
+    //   }
+    // );
+  });
+</script>
