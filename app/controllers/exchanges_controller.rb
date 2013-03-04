@@ -4,14 +4,17 @@ class ExchangesController < ApplicationController
 
   def new
     @exchange = Exchange.new()
+    3.times { @exchange.invitations.build }
   end
 
   def create
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
     @exchange.max_price *= 100
+
     # The organizer is also the first member 
     @exchange.memberships.build(user_id:current_user.id)
+
     if @exchange.save
       flash[:success] = "Exchange created!"
       redirect_to exchange_path(@exchange.id)

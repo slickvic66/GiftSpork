@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301012834) do
+ActiveRecord::Schema.define(:version => 20130304223452) do
 
   create_table "exchanges", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,20 @@ ActiveRecord::Schema.define(:version => 20130301012834) do
     t.datetime "updated_at",  :null => false
     t.integer  "price"
   end
+
+  create_table "invitations", :force => true do |t|
+    t.integer  "exchange_id"
+    t.string   "invited_email"
+    t.string   "token"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "accepted",      :default => false
+    t.integer  "sender_id"
+  end
+
+  add_index "invitations", ["exchange_id"], :name => "index_invitations_on_exchange_id"
+  add_index "invitations", ["invited_email"], :name => "index_invitations_on_invited_email"
+  add_index "invitations", ["token"], :name => "index_invitations_on_token"
 
   create_table "matches", :force => true do |t|
     t.integer  "santa_id"

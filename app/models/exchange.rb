@@ -1,6 +1,11 @@
 class Exchange < ActiveRecord::Base
-  attr_accessible :exchange_date, :match_date, :name, :max_price, :organizer_id, :matchedup
-  #after_create :make_membership
+  attr_accessible :exchange_date, :match_date, :name, :max_price, :organizer_id, :matchedup, :invitations_attributes
+  
+  ############# Associations ##################
+
+  has_many :invitations, :inverse_of => :exchange
+  accepts_nested_attributes_for :invitations,
+    :reject_if => lambda { |attributes| attributes['invited_email'].blank? }
 
   belongs_to :organizer, 
              :foreign_key => :organizer_id,
@@ -16,6 +21,8 @@ class Exchange < ActiveRecord::Base
   has_many :matches, :dependent => :destroy
 
   has_many :gifts, :through => :matches
+
+  ############ Validations ####################
 
   [ 
     :organizer_id,
