@@ -1,0 +1,23 @@
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+  <p>
+  Hi <%= @recipient.profile.fname %>,
+  </p>
+
+  <p>
+  You've been invited to a new giftSpork gift exchange by <%= @sender.fname %> <%= @sender.lname %>.  
+  </p>
+
+  <p>
+  Log in to accept your invite <%=link_to "here", @url%>.
+  </p>
+
+  <p>
+  Happy Gifting!
+  </p>
+</body>
+</html>
+

@@ -6,9 +6,9 @@ class Exchange < ActiveRecord::Base
   has_many :invitations, 
            :inverse_of => :exchange,
            :dependent => :destroy
-           
+
   accepts_nested_attributes_for :invitations,
-    :reject_if => lambda { |attributes| attributes['invited_email'].blank? }
+    :reject_if => :all_blank
 
   belongs_to :organizer, 
              :foreign_key => :organizer_id,
@@ -40,7 +40,6 @@ class Exchange < ActiveRecord::Base
            :on => :update
   validate :exchange_date_at_least_three_days_after_match_date
   validate :invitations_count
-
 
   # Custom Validators
   def match_date_at_least_a_week_away
@@ -95,5 +94,5 @@ class Exchange < ActiveRecord::Base
       raise errors.full_messages
     end
   end
-  
+
 end

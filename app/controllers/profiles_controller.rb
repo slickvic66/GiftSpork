@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_profile_exists, :only => [:show]
+  before_filter :check_profile_owner, :except => [:new, :create]
   
   def new
     @profile = current_user.build_profile()
@@ -45,6 +46,13 @@ class ProfilesController < ApplicationController
 
     # If profile is not found it will be set to nil and this will redirect to creating a profile
     unless profile 
+      redirect_to new_user_profile_path()
+    end
+  end
+
+  def check_profile_owner
+    profile = Profile.find_by_user_id(current_user.id)
+    unless profile.user_id == current_user.id
       redirect_to new_user_profile_path()
     end
   end

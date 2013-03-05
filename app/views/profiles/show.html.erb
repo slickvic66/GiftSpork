@@ -1,6 +1,17 @@
 <% if profile_owner?(@profile) %>
+    <br>
+    <%# if current_user.notifications.any? %>
+    <div id="notifications-box" class="well">
+      <h3>New Invitations</h3>
+      <p>Some Exchange</p>
+      <p>Some Exchange</p>
+    </div>
+
+    <div>
+      <h1>Hi <%= @profile.fname %>!</h1>
+    </div>
+    
   <br>
-  <h1>Hi, <%= @profile.fname %></h1><br>
   <%= link_to "Create New Exchange!", new_exchange_path, :class => "btn btn-primary btn-large" %>
   <div>
   <h3>Gift Exchanges You've Organized</h3>
@@ -15,8 +26,6 @@
   </ul>
   <br>
 
-
-  <%=link_to "Edit Profile", edit_user_profile_path(current_user) %>&nbsp
   <%= link_to "All Exchanges",  exchanges_path%>
 
 

@@ -11,14 +11,27 @@ class ExchangesController < ApplicationController
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
     @exchange.max_price *= 100
+    @exchange.invitations.each do |invitation|
+      invitation.sender_id = current_user.id
+    end
 
     # The organizer is also the first member 
     @exchange.memberships.build(user_id:current_user.id)
 
     if @exchange.save
       flash[:success] = "Exchange created!"
+      @exchange.invitations.each do |invitation|
+        if invitation.is_registered?
+          InvitationMailer.notify_of_invitation(invitation,new_user_session_url).deliver
+        else
+          InvitationMailer.invite_to_service(invitation, new_user_registration_url(:invitation_id => @invitation.token)).deliver
+        end
+      end
       redirect_to exchange_path(@exchange.id)
     else
+      if @exchange.invitations.count < 3
+        3.times { @exchange.invitations.build }
+      end
       render 'new'
     end
   end

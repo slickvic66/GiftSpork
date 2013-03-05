@@ -15,7 +15,6 @@ class User < ActiveRecord::Base
            :class_name => "Invitation",
            :dependent => :destroy
 
-
   has_many :memberships, :dependent => :destroy,
            :inverse_of => :user
 
@@ -27,7 +26,8 @@ class User < ActiveRecord::Base
   # Returns array of exchanges user has organized
   has_many :organized_exchanges, 
            :foreign_key => :organizer_id, 
-           :class_name => "Exchange"
+           :class_name => "Exchange",
+           :dependent => :destroy
 
   # Past and present matches where user is gift buyer
   has_many :santa_matches,

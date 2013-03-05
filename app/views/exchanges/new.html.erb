@@ -1,1 +1,8 @@
 <%= render "form" %>
+
+<script type="text/javascript">
+$(function(){
+  var formatted_value = ($('input#exchange_max_price').attr('value')/100).toFixed(2)
+  $('input#exchange_max_price').attr('value', formatted_value)
+})
+</script>

@@ -194,3 +194,38 @@ body {
 .container h3 {
   font-family: 'Sanchez', serif;
 }
+
+.view-header{
+  float:left
+}
+
+#notifications-box {
+  width: 20%;
+  position:absolute;
+  top: 1%;
+  right: 1%;
+  text-align: center;
+  background-color:#A9D581;
+  border: 1px solid #AAB776;
+  line-height:10px;
+  border-radius: 0;
+  padding:2%
+}
+
+#notifications-box h3{
+  font-family: 'Sanchez', serif;
+  color: white;
+  margin-left: 20px;
+  margin-right: 20px;
+  line-height: 25px;
+
+}
+
+#notifications-box p{
+  font-family: 'Sanchez', serif;
+  color: white;
+}
+
+#main {
+  position:relative
+}
