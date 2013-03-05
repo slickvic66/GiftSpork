@@ -35,7 +35,7 @@
   <% end %>
 
 <% else %>
-<h4><i>12 hours Until Matching</i> (Still need to Code This)</h4>
+<h4><i><%= distance_of_time_in_words(Time.now, @exchange.match_date.midnight) %> until matching</i></h4>
 <% end %>
 
 <h3>Participants: </h3>
@@ -45,4 +45,4 @@
     <% end %>
 </ul>
 <!-- (After its coded) The below will dissapear if @exchange.matchedup is true -->
-<h3>4 More Invited (Still need to code this)</h3>
+<h3><%= @exchange.invitations.count %> More Invited </h3>

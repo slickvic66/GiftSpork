@@ -20,5 +20,14 @@
   <%= f.label :price, "Max Price Participants Can Spend" %>
   <%= f.text_field :max_price %>
   <br>
+  <% if verb == "Create" %>
+    <b>Invite People To Your Exchange via Email</b>
+    <br>
+    <%= f.fields_for(:invitations) do |invitation_form| %>
+      <%= invitation_form.label :invited_email, "Email:" %>
+      <%= invitation_form.text_field :invited_email %>
+      <br>
+    <% end %>
+  <% end %>
   <%= f.submit "#{verb} Exchange" %>
 <% end -%>

@@ -1,7 +1,11 @@
 class Invitation < ActiveRecord::Base
-  attr_accessible :exchange_id, :invited_email, :token, :accepted
+  attr_accessible :exchange_id, :invited_email, :token, :accepted, 
+  :sender_id
 
   belongs_to :exchange, :inverse_of => :invitations
+
+  # Need sender id to later autofill any emails a user has sent to before via ajax
+
   belongs_to :sender, 
              :foreign_key => :sender_id, 
              :class_name => "User"
@@ -25,9 +29,9 @@ class Invitation < ActiveRecord::Base
     else
       # Send and email with link to sign_up_path and create
     end
-  def
+  end
 
-  end is_registered?
+  def is_registered?
     return true if User.find_by_email(invited_email)
   end
 end

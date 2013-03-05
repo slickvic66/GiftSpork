@@ -10,6 +10,12 @@ class User < ActiveRecord::Base
   
   has_one :profile, :dependent => :destroy
 
+  has_many :sent_invitations,
+           :foreign_key => :sender_id,
+           :class_name => "Invitation",
+           :dependent => :destroy
+
+
   has_many :memberships, :dependent => :destroy,
            :inverse_of => :user
 

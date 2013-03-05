@@ -3,7 +3,10 @@ class Exchange < ActiveRecord::Base
   
   ############# Associations ##################
 
-  has_many :invitations, :inverse_of => :exchange
+  has_many :invitations, 
+           :inverse_of => :exchange,
+           :dependent => :destroy
+           
   accepts_nested_attributes_for :invitations,
     :reject_if => lambda { |attributes| attributes['invited_email'].blank? }
 
@@ -36,6 +39,7 @@ class Exchange < ActiveRecord::Base
   validate :updated_match_date_must_be_tomorrow_or_later, 
            :on => :update
   validate :exchange_date_at_least_three_days_after_match_date
+  validate :invitations_count
 
 
   # Custom Validators
@@ -49,6 +53,10 @@ class Exchange < ActiveRecord::Base
     unless exchange_date >= (match_date + 3.days)
       errors.add(:exchange_date, "must be at least 3 days after match date to give people a chance to find gifts.")
     end
+  end
+
+  def invitations_count
+    errors.add(:invitations, "You need at least one other person to exchange gifts with.") if invitations.empty?
   end
 
   # On update they will be able to make the match date be earlier
