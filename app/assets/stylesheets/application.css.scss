@@ -202,8 +202,8 @@ body {
 #notifications-box {
   width: 20%;
   position:absolute;
-  top: 1%;
-  right: 1%;
+  top: 5%;
+  right: 2%;
   text-align: center;
   background-color:#A9D581;
   border: 1px solid #AAB776;
@@ -224,8 +224,15 @@ body {
 #notifications-box p{
   font-family: 'Sanchez', serif;
   color: white;
+  line-height:15px;
 }
 
 #main {
   position:relative
+}
+
+.alert {
+  width:30%;
+  margin-left:auto;
+  margin-right:auto;
 }

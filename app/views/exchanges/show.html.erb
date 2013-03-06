@@ -1,4 +1,8 @@
-<h1>View Exchange:</h1>
+<h1><%= @exchange.name %> </h1>
+<h2>
+    Organized By: 
+    <%= @organizer_profile.fname %> <%= @organizer_profile.lname %>
+</h2>
 
 <% if is_organizer?(@organizer) %>
   <i>Welcome Organizer!</i> <br>
@@ -9,11 +13,6 @@
   <% end %>
 <% end %>
 
-<h2><%= @exchange.name %> 
-    <br>
-    Organized By: 
-    <%= @organizer_profile.fname %> <%= @organizer_profile.lname %>
-</h2>
 
 <h3>My Match:</h3>
 

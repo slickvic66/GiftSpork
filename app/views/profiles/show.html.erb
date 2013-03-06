@@ -1,11 +1,15 @@
 <% if profile_owner?(@profile) %>
     <br>
-    <%# if current_user.notifications.any? %>
-    <div id="notifications-box" class="well">
-      <h3>New Invitations</h3>
-      <p>Some Exchange</p>
-      <p>Some Exchange</p>
-    </div>
+    <% if @notifications.any? %>
+      <div id="notifications-box" class="well">
+        <h3>New Invitations</h3>
+        <% @notifications.each do |notification| %>
+          <p>Exchange: <i> <%= notification.invitation.exchange.name %></i></p>
+          <p><%=link_to "Accept Invitation", memberships_path(:exchange_id => "#{notification.invitation.exchange_id}"), :method => :post %></p>
+          <br>
+        <% end %>
+      </div>
+    <% end %>
 
     <div>
       <h1>Hi <%= @profile.fname %>!</h1>

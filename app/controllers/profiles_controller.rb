@@ -19,6 +19,7 @@ class ProfilesController < ApplicationController
 
   def show
       @profile = Profile.find_by_user_id(params[:user_id])
+      @notifications = @profile.user.notifications
   end
 
   def edit

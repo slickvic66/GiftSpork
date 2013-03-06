@@ -24,7 +24,7 @@ class ExchangesController < ApplicationController
         if invitation.is_registered?
           InvitationMailer.notify_of_invitation(invitation,new_user_session_url).deliver
         else
-          InvitationMailer.invite_to_service(invitation, new_user_registration_url(:invitation_id => @invitation.token)).deliver
+          InvitationMailer.invite_to_service(invitation, new_user_registration_url(:invitation_id => invitation.token)).deliver
         end
       end
       redirect_to exchange_path(@exchange.id)

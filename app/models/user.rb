@@ -6,7 +6,18 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
 
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessor :invitation_token
+
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :invitation_token
+
+
+  after_create :check_invite_and_create_notifications
+
+  has_many :notifications, :dependent => :destroy
+
+  has_many :recieved_invitations, 
+           :through => :notifications,
+           :foreign_key => :associated_id
   
   has_one :profile, :dependent => :destroy
 
@@ -128,6 +139,27 @@ class User < ActiveRecord::Base
                           AND matches.santa_id = :user_id)", 
                          :todays_date => Date.today,
                          :user_id => self.id])
+  end
+
+
+  # If person created an account after an invitation look up their invitation and any other invitations they may have. 
+
+  # Invitations are an MD5 hash of the email address the invite is sent to
+
+  def check_invite_and_create_notifications
+    if self.invitation_token
+      all_invites = []
+
+      # Invites for their specific token
+      (Invitation.where("token = ?", self.invitation_token)).each {|invite| all_invites << invite}
+
+      # Any invites for their email (if their email was diff from the one they recieved an invite for)
+      Invitation.where("token = ?", Digest::MD5.hexdigest(self.email)).each {|invite| all_invites << invite}
+
+      all_invites.each do |invite|
+        Notification.create(user_id:self.id, kind:"invite", associated_id: invite.exchange_id)
+      end
+    end
   end
 
   # New matching ALERT
