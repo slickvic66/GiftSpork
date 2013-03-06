@@ -2,7 +2,14 @@
 
 <script type="text/javascript">
 $(function(){
-  var formatted_value = ($('input#exchange_max_price').attr('value')/100).toFixed(2)
-  $('input#exchange_max_price').attr('value', formatted_value)
-})
+
+  $('input#exchange_max_price').change(function(e){
+      console.log('changed');
+      var formatted_value = ($(this).val()/100).toFixed(2);
+      $(this).val(formatted_value);
+      console.log(formatted_value);
+  });
+
+  $('input#exchange_max_price').change();
+});
 </script>

@@ -144,6 +144,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
 
 @import "bootstrap";
 
+/*  Homepage stuff  */
 .navbar {
   margin-bottom: 0px;
 }
@@ -235,4 +236,102 @@ body {
   width:30%;
   margin-left:auto;
   margin-right:auto;
+}
+
+#exchange-info-box {
+  width: 20%;
+  position:absolute;
+  top: 5%;
+  right: 2%;
+  text-align: center;
+  background-color:rgba(234, 231, 77, 0.63);;
+  border: 1px solid #E0A933;
+  line-height:10px;
+  border-radius: 0;
+  padding:2%;
+}
+/* Gift Index Stuff */ 
+
+.masonry-container{
+  float:left;
+  width:680px;
+}
+
+.gift-brick{
+  margin: 10px;
+  width:175px;
+  height:140px;
+  position:relative;
+  overflow:hidden;
+  cursor:move;
+  z-index: 1;
+}
+
+.gift-brick img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.gift-info{
+  height:40px;
+  position:absolute;
+  bottom:-40px;
+  left:0;
+  width:100%;
+  color:white;
+  line-height:1.3;
+  background-color: rgba(0,0,0,0.5);
+  -webkit-transition: bottom .4s ease-in-out;
+  padding-left:3px;
+}
+
+.gift-brick:hover .gift-info{
+  display:block;
+  bottom:0;
+}
+
+.shopping-sidebar{
+  float:right;
+  width:240px;
+  min-height: 300px;
+  text-align: center;
+  background-color:#A9D581;
+  border: 1px solid #AAB776;
+  line-height:10px;
+  border-radius: 0;
+  padding:0;
+  margin-top:10px;
+  margin-right: 10px;
+  padding-top:10px;
+  color:white;
+}
+
+.ui-draggable-dragging{
+  z-index:2;
+  background-color:yellow;
+}
+
+.shopping-sidebar ul{
+  list-style-type: none;
+  width:100%;
+  margin:0;
+  font-family: Sanchez, serif;
+}
+
+
+.shopping-sidebar li{
+  background-color:rgba(255,255,255,0.5);
+  color: #282824;
+  padding: 2px;
+  margin-bottom: 2px;
+  text-align: left;
+}
+
+.shopping-sidebar li img{
+  width:50px;
+  height:auto;
+  display:block;
+  float:left;
+  margin-right: 5px;
 }

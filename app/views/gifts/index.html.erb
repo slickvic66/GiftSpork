@@ -1,14 +1,68 @@
-<h2>Gift Ideas For <%= @exchange.name %></h2>
-<% @gifts.each do |gift| %>
-  <div class = "giftbox">
-    <b><%= gift.name %>
-    </b><br>
-    Price: <%= change_to_dollars(gift.price) %><br>      
-    <% if @current_gift && @current_gift.id == gift.id %>
-    <span><i>Currently Selected</i></span><br>
-    <% else %>
-    <%= link_to "Select Gift", add_gift_exchange_gift_path(@exchange.id, gift.id), :method => :post %> <br>
-    <% end %>
-    <img src= <%= gift.picture_url %> ><br>
+<h2>Gift Ideas For <i><%= @exchange.name %></i></h2>
+<div class="clearfix">
+  <div class="shopping-sidebar">
+    <p><b>Drag Gift Ideas Here</b></p>
+    <ul>
+      <!-- place gift ideas here -->
+    </ul>
   </div>
-<% end %>
+  <div class="masonry-container">
+      <!-- <div class="corner-stamp">d</div> -->
+      <% @gifts.each do |gift| %>
+        <div class="giftbox gift-brick" 
+             data-image="<%= gift.picture_url %>"
+             data-name="<%= gift.name %>"
+             data-price="<%= change_to_dollars(gift.price) %>" >
+          <img src=<%= gift.picture_url %> ><br>
+          <div class="gift-info">
+            <b><%= gift.name %></b><br>
+            Price: <%= change_to_dollars(gift.price) %>   
+          </div>
+        </div>
+      <% end %>
+  </div>
+</div>
+<script>
+
+  $(function(){
+        var $container = $('.masonry-container');
+
+        $container.imagesLoaded(function() {
+          $container.masonry({
+            itemSelector: '.gift-brick',
+            isAnimated: true,
+            columnWidth: 35,
+            cornerStampSelector: '.corner-stamp'
+          });
+        });
+
+        $(".gift-brick").draggable({
+          revert: "invalid"
+        });
+
+        $(".shopping-sidebar").droppable({
+          drop: function(e, ui){
+            removeItem($container, ui.draggable);
+          }
+        });
+
+        // Removes an item from a masonry container and reloads the masonry.
+
+        function removeItem($masonTbl, $item){
+          console.log($item.attr('data-name'));
+          var $giftlist = $('.shopping-sidebar ul');
+          $giftlist.append($('<li>', 
+                            { class:'clearfix',
+                              html: '<img src='
+                              + $item.attr('data-image')
+                              + '>'
+                              + $item.attr('data-name')
+                              +'<br>'
+                              + $item.attr('data-price')
+                          }))
+          $masonTbl.masonry('remove', $item).masonry('reload')
+        };
+
+        // $('.gift-brick').on('click', function(){$container.masonry('remove', $(this)).masonry('reload')});
+    })
+</script>

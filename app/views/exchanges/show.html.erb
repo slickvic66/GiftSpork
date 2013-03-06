@@ -1,3 +1,10 @@
+<div id="exchange-info-box" class="well">
+  <h3>Exchange Info</h3>
+    <p>Exchange: <i> <%= @exchange.name %></i></p>
+    <p>Max Gift Price: <%= change_to_dollars(@exchange.max_price) %></p>
+  <br>
+</div>
+
 <h1><%= @exchange.name %> </h1>
 <h2>
     Organized By: 
@@ -22,19 +29,21 @@
   </h4>
 
   <% if @current_match.first.gift_id %>
-  <div class = "giftbox">
-    <%= @current_gift.name %><br>
-    Price: <%= change_to_dollars(@current_gift.price) %><br>
-    <img src= <%= @current_gift.picture_url %> ><br>
-    <%= link_to "Change Gift", exchange_gifts_path(@exchange) %> 
-  </div>
+    <div class = "giftbox">
+      <%= @current_gift.name %><br>
+      Price: <%= change_to_dollars(@current_gift.price) %><br>
+      <img src= <%= @current_gift.picture_url %> ><br>
+      <%= link_to "Change Gift", exchange_gifts_path(@exchange) %> 
+    </div>
   <% else %>
     <span>You haven't gotten your match a gift yet.</span><br>
     <%= link_to "Click to find a gift", exchange_gifts_path(@exchange) %>
   <% end %>
 
 <% else %>
-<h4><i><%= distance_of_time_in_words(Time.now, @exchange.match_date.midnight) %> until matching</i></h4>
+  <h4><i><%= distance_of_time_in_words(Time.now, @exchange.match_date.midnight) %> until matching</i></h4>
+  <p><%= link_to "Look for gift ideas", 
+         exchange_gifts_path(@exchange) %></p>
 <% end %>
 
 <h3>Participants: </h3>
@@ -43,5 +52,7 @@
       <li><%= user_obj.fname%> <%= user_obj.lname %></li>
     <% end %>
 </ul>
+
 <!-- (After its coded) The below will dissapear if @exchange.matchedup is true -->
-<h3><%= @exchange.invitations.count %> More Invited </h3>
+<h3><%= @exchange.invitations.count %> More Invited 
+(Need to code acceptance/removal of invites)</h3>
