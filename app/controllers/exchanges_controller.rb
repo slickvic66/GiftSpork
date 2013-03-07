@@ -11,6 +11,8 @@ class ExchangesController < ApplicationController
     @exchange = Exchange.new(params[:exchange])
     @exchange.organizer_id = current_user.id
     @exchange.max_price *= 100
+
+    # The creator of the exchange sends out the invitations
     @exchange.invitations.each do |invitation|
       invitation.sender_id = current_user.id
     end
@@ -63,6 +65,11 @@ class ExchangesController < ApplicationController
     end
   end
 
+  def destroy
+    @exchange = Exchange.find(params[:id])
+    @exchange.destroy
+    redirect_to user_profile_path(current_user)
+  end
 
   def make_matches
     exchange = Exchange.find_by_id(params[:id])

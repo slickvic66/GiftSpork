@@ -1,15 +1,9 @@
 <%= render "form" %>
-
+<%= link_to "Cancel", user_profile_path(current_user) %>
 <script type="text/javascript">
 $(function(){
-
-  $('input#exchange_max_price').change(function(e){
-      console.log('changed');
-      var formatted_value = ($(this).val()/100).toFixed(2);
-      $(this).val(formatted_value);
-      console.log(formatted_value);
-  });
-
-  $('input#exchange_max_price').change();
+  var $maxPrice = $('input#exchange_max_price')
+  var formatted_value = ($maxPrice.val()/100).toFixed(2);
+  $maxPrice.val(formatted_value);
 });
 </script>

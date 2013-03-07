@@ -2,6 +2,14 @@
   <h3>Exchange Info</h3>
     <p>Exchange: <i> <%= @exchange.name %></i></p>
     <p>Max Gift Price: <%= change_to_dollars(@exchange.max_price) %></p>
+    <% if is_organizer?(@organizer) %>   
+      <% unless @exchange.matchedup %>
+        <%= link_to "Edit Exchange", edit_exchange_path(@exchange) %>
+        <br>
+        <br>
+        <%= link_to "Match Everyone Now!", make_matches_exchange_path, :method => :post, :class => "btn btn-info", :data => { :confirm => "Are you sure?  You can't invite more people or edit the exchange after matching." } %>
+      <% end %>
+    <% end %>
   <br>
 </div>
 
@@ -10,16 +18,10 @@
     Organized By: 
     <%= @organizer_profile.fname %> <%= @organizer_profile.lname %>
 </h2>
-
-<% if is_organizer?(@organizer) %>
-  <i>Welcome Organizer!</i> <br>
-  <% unless @exchange.matchedup %>
-    <%= link_to "Edit Your Exchange", edit_exchange_path(@exchange) %>
-    <br>
-    <%= link_to "Match Everyone Now!", make_matches_exchange_path, :method => :post %>
-  <% end %>
-<% end %>
-
+<p><i>
+  <%= @exchange.description %>
+</i>
+</p>
 
 <h3>My Match:</h3>
 

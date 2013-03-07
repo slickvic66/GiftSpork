@@ -1,1 +1,10 @@
+<%= link_to "Delete Exchange", exchange_path(@exchange), :method => :delete, :data => {:confirm => "Not in a giving mood any more?"}, :class => "btn btn-danger btn-large big-delete" %>
 <%= render "form" %>
+<%= link_to "Cancel", exchange_path(@exchange) %>
+<script type="text/javascript">
+$(function(){
+  var $maxPrice = $('input#exchange_max_price')
+  var formatted_value = ($maxPrice.val()/100).toFixed(2);
+  $maxPrice.val(formatted_value);
+});
+</script>

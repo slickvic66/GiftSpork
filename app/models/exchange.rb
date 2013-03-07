@@ -1,5 +1,5 @@
 class Exchange < ActiveRecord::Base
-  attr_accessible :exchange_date, :match_date, :name, :max_price, :organizer_id, :matchedup, :invitations_attributes
+  attr_accessible :exchange_date, :match_date, :name, :max_price, :organizer_id, :matchedup, :invitations_attributes, :description
   
   ############# Associations ##################
 

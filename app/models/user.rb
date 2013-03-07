@@ -76,8 +76,9 @@ class User < ActiveRecord::Base
   has_many :gift_ideas,
            :dependent => :destroy
 
-  def gift_ideas_for_exchange(exchange)
-    self.gift_ideas.where(:exchange == exchange)
+  def gift_ideas_for_exchange(exchange_var)
+    self.gift_ideas.where([":exchange_id = gift_ideas.exchange_id", 
+                            :exchange_id => exchange_var.id])
   end
 
   # active exchanges user is participating in (post match, pre-ship)

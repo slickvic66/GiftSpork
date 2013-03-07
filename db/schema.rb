@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130307091938) do
+ActiveRecord::Schema.define(:version => 20130307211016) do
 
   create_table "exchanges", :force => true do |t|
     t.string   "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20130307091938) do
     t.integer  "organizer_id"
     t.boolean  "matchedup",     :default => false, :null => false
     t.integer  "max_price",     :default => 0,     :null => false
+    t.text     "description"
   end
 
   add_index "exchanges", ["organizer_id"], :name => "index_exchanges_on_organizer_id"
@@ -55,10 +56,10 @@ ActiveRecord::Schema.define(:version => 20130307091938) do
     t.integer  "exchange_id"
     t.string   "invited_email"
     t.string   "token"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-    t.boolean  "accepted",      :default => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "sender_id"
+    t.boolean  "accepted"
   end
 
   add_index "invitations", ["exchange_id"], :name => "index_invitations_on_exchange_id"

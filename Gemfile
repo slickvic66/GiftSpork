@@ -9,6 +9,8 @@ gem 'bootstrap-sass'
 gem 'pg'
 gem 'devise'
 gem 'omniauth', '~> 1.0'
+gem 'rest-client'
+gem 'addressable'
 
 
 # Gems used only for assets and not required

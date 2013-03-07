@@ -4,5 +4,7 @@ class GiftIdea < ActiveRecord::Base
   belongs_to :user
   belongs_to :exchange
 
-  validates :gift_id, :uniqueness => {:scope => :user_id}
+  # A user cant have the same item be a gift idea on the same exchange
+  validates :gift_id, 
+            :uniqueness => {:scope => [:user_id, :exchange_id]}
 end

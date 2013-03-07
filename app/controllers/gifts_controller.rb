@@ -7,7 +7,7 @@ class GiftsController < ApplicationController
     @gift_ideas = current_user.gift_ideas_for_exchange(@exchange)
   end
 
-  # Pretty hacky.  Ment to be done with AJAX
+  # Pretty hacky.  Meant to be done with AJAX
   def add_gift
     match = Match.find_by_sql(["SELECT matches.* FROM matches WHERE matches.santa_id = :current_user_id AND matches.exchange_id = :this_exchange_id", :current_user_id => current_user.id, 
                           :this_exchange_id => params[:exchange_id]]).first
