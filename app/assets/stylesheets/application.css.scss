@@ -179,8 +179,7 @@ body {
 }
 
 .container {
-  background-color: #fff;
-  opacity: 0.9;
+  background-color:rgba(255,255,255,0.9);
   padding: 15px;
 }
 
@@ -194,6 +193,10 @@ body {
 
 .container h3 {
   font-family: 'Sanchez', serif;
+}
+
+.container a:hover, a:visited, a:link, a:active{
+  text-decoration: none;
 }
 
 .view-header{
@@ -305,6 +308,8 @@ body {
   margin-right: 10px;
   padding-top:10px;
   color:white;
+  padding-left: 4px;
+  padding-right:4px;
 }
 
 .ui-draggable-dragging{
@@ -324,7 +329,7 @@ body {
   background-color:rgba(255,255,255,0.5);
   color: #282824;
   padding: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   text-align: left;
 }
 

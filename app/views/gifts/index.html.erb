@@ -1,15 +1,25 @@
-<h2>Gift Ideas For <i><%= @exchange.name %></i></h2>
+<h2>Gift Ideas For <i><%= link_to @exchange.name, exchange_path(@exchange) %></i></h2>
 <div class="clearfix">
   <div class="shopping-sidebar">
     <p><b>Drag Gift Ideas Here</b></p>
     <ul>
-      <!-- place gift ideas here -->
+      <!-- drag gift ideas here or have them populate from prev-->
+      <% if @gift_ideas.any? %>
+        <% @gift_ideas.each do |giftidea| %>
+          <li class="clearfix">
+            <img src="<%= giftidea.picture_url %>">
+            <%= giftidea.name %>
+            <br>
+            <%= giftidea.price %>
+          </li>
+        <% end %>
+      <% end %>
     </ul>
   </div>
   <div class="masonry-container">
-      <!-- <div class="corner-stamp">d</div> -->
       <% @gifts.each do |gift| %>
-        <div class="giftbox gift-brick" 
+        <div class="giftbox gift-brick"
+             data-giftid="<%= gift.id %>"
              data-image="<%= gift.picture_url %>"
              data-name="<%= gift.name %>"
              data-price="<%= change_to_dollars(gift.price) %>" >
@@ -39,16 +49,39 @@
           revert: "invalid"
         });
 
+        // Need to move this code into the asset pipeline eventually
+
         $(".shopping-sidebar").droppable({
           drop: function(e, ui){
-            removeItem($container, ui.draggable);
+            var ondrop = $.post('/gift_ideas.json', 
+                               {
+                                  giftidea: {
+                                    user_id: <%= current_user.id %>,
+                                    exchange_id: <%= @exchange.id %>,
+                                    gift_id: ui.draggable.attr('data-giftid'),
+                                    name: ui.draggable.attr('data-name'),
+                                    price: ui.draggable.attr('data-price'),
+                                    picture_url: ui.draggable.attr('data-image')
+                                  }
+                                },
+                                function(response){
+                                  console.log("Success");
+                                  addToShopping($container, ui.draggable);
+                            });
+            ondrop.fail(function(response){
+              console.log("Fail");
+              removeItem($container, ui.draggable)
+            });
+            ondrop.always(function(response){
+              console.log("post was at least made...");
+            });
           }
         });
 
-        // Removes an item from a masonry container and reloads the masonry.
+        // Removes an item from a masonry container, adds it to shopping sidebar, and then reloads the masonry.
 
-        function removeItem($masonTbl, $item){
-          console.log($item.attr('data-name'));
+        function addToShopping($masonTbl, $item){
+          console.log($item);
           var $giftlist = $('.shopping-sidebar ul');
           $giftlist.append($('<li>', 
                             { class:'clearfix',
@@ -61,6 +94,11 @@
                           }))
           $masonTbl.masonry('remove', $item).masonry('reload')
         };
+
+        // Removes item from screen and reloads masonry
+        function removeItem($masonTbl, $item){
+          $masonTbl.masonry('remove', $item).masonry('reload')
+        }
 
     })
 </script>

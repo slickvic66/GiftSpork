@@ -9,6 +9,7 @@ class Match < ActiveRecord::Base
              :foreign_key => :recipient_id,
              :class_name => "User"
 
+  # This will be called selected_gift and will be through a gift_idea_id (Which I will replace this with)
   belongs_to :gift
 
   # Validation just for testing purposes

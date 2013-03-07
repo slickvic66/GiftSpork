@@ -17,6 +17,8 @@ Giftr::Application.routes.draw do
       end
   end
 
+  resources :gift_ideas, :only => [:index, :create]
+
 
   root to: "static_pages#home"
 

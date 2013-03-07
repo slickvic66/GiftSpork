@@ -4,6 +4,7 @@ class GiftsController < ApplicationController
     @exchange = Exchange.find(params[:exchange_id])
     @gifts = @exchange.gifts_below_max_price
     @current_gift = current_user.gift_on_current_exchange(@exchange).first
+    @gift_ideas = current_user.gift_ideas_for_exchange(@exchange)
   end
 
   # Pretty hacky.  Ment to be done with AJAX

@@ -8,7 +8,7 @@ class Exchange < ActiveRecord::Base
            :dependent => :destroy
 
   accepts_nested_attributes_for :invitations,
-    :reject_if => :all_blank
+                                :reject_if => :all_blank
 
   belongs_to :organizer, 
              :foreign_key => :organizer_id,
@@ -21,9 +21,14 @@ class Exchange < ActiveRecord::Base
            :through => :memberships, 
            :source => :user
 
-  has_many :matches, :dependent => :destroy
+  has_many :matches, 
+           :dependent => :destroy
 
-  has_many :gifts, :through => :matches
+  has_many :gifts, 
+           :through => :matches
+
+  has_many :gift_ideas,
+           :dependent => :destroy
 
   ############ Validations ####################
 
@@ -66,16 +71,19 @@ class Exchange < ActiveRecord::Base
     end
   end
 
-  # Custom queries
+  ############ Custom Queries ####################
+
   def get_participant_names
      self.participants.joins(:profile).select('fname, lname')
   end
 
+  # Will do this in gifts controller when I add in ETSY api
   def gifts_below_max_price
     Gift.find_by_sql(["SELECT gifts.* FROM gifts WHERE gifts.price <= :max_price", :max_price => self.max_price])
   end
 
-  # Matches Constructor
+  ############ Constructors ####################
+
   def make_santas
     if matchedup
       raise "Already Matched Up"

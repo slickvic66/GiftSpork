@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305233156) do
+ActiveRecord::Schema.define(:version => 20130307091938) do
 
   create_table "exchanges", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,21 @@ ActiveRecord::Schema.define(:version => 20130305233156) do
   end
 
   add_index "exchanges", ["organizer_id"], :name => "index_exchanges_on_organizer_id"
+
+  create_table "gift_ideas", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "exchange_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "name"
+    t.string   "color"
+    t.string   "picture_url"
+    t.string   "price"
+    t.integer  "gift_id"
+  end
+
+  add_index "gift_ideas", ["exchange_id"], :name => "index_gift_ideas_on_exchange_id"
+  add_index "gift_ideas", ["user_id"], :name => "index_gift_ideas_on_user_id"
 
   create_table "gifts", :force => true do |t|
     t.string   "name"

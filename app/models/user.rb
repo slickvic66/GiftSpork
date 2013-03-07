@@ -8,24 +8,30 @@ class User < ActiveRecord::Base
 
   attr_accessor :invitation_token
 
+
   attr_accessible :email, :password, :password_confirmation, :remember_me, :invitation_token
 
 
   after_create :check_invite_and_create_notifications
+
+  has_one :profile, :dependent => :destroy
+
+  ########## Notification/Invitation Associations ###########
 
   has_many :notifications, :dependent => :destroy
 
   has_many :recieved_invitations, 
            :through => :notifications,
            :foreign_key => :associated_id
-  
-  has_one :profile, :dependent => :destroy
 
   has_many :sent_invitations,
            :foreign_key => :sender_id,
            :class_name => "Invitation",
            :dependent => :destroy
 
+  ########## Exchange Associations  ########################
+
+  # Joins user and exchange
   has_many :memberships, :dependent => :destroy,
            :inverse_of => :user
 
@@ -40,12 +46,15 @@ class User < ActiveRecord::Base
            :class_name => "Exchange",
            :dependent => :destroy
 
+  ########## All Gift-Related Associations ################
+
   # Past and present matches where user is gift buyer
   has_many :santa_matches,
            :foreign_key => :santa_id,
            :class_name => "Match",
            :dependent => :destroy
 
+  # NEEDS_CHANGE
   # All the gifts this person has ever given OR has selected to give
   has_many :selected_gifts,
            :through => :santa_matches,
@@ -57,10 +66,19 @@ class User < ActiveRecord::Base
            :class_name => "Match",
            :dependent => :destroy
 
+  # NEEDS_CHANGE
   # All the gifts this user has ever recieved OR is set to recieve
   has_many :recieved_gifts,
            :through => :recipient_matches,
            :source => :gift
+
+  # All of the user's gift ideas for various exchanges
+  has_many :gift_ideas,
+           :dependent => :destroy
+
+  def gift_ideas_for_exchange(exchange)
+    self.gift_ideas.where(:exchange == exchange)
+  end
 
   # active exchanges user is participating in (post match, pre-ship)
   def active_exchanges
@@ -75,6 +93,7 @@ class User < ActiveRecord::Base
                                   :todays_date => Date.today])
   end
 
+  # NEEDS_CHANGE
   def matches_without_gifts  
     self.santa_matches.where("gift_id is NULL")
   end
@@ -83,6 +102,7 @@ class User < ActiveRecord::Base
     self.santa_matches.joins(:exchange).where([':todays_date > match_date AND :todays_date < exchange_date', :todays_date => Date.today])
   end
 
+  # NEEDS_CHANGE
   # Gifts a user has selected on exchanges that are still open
   def selected_gifts_on_active_exchanges
     Gift.find_by_sql(["Select gifts.* FROM gifts 
@@ -97,6 +117,7 @@ class User < ActiveRecord::Base
                       :user_id => self.id])
   end
 
+  # NEEDS_CHANGE
   # Returns gift (if any) a user has selected on a specific exchange
   def gift_on_current_exchange(exchange)
     Gift.find_by_sql(["Select gifts.* FROM gifts 
@@ -110,6 +131,7 @@ class User < ActiveRecord::Base
                       :user_id => self.id])
   end
 
+  # NEEDS_CHANGE
   # Exchages that are acvite but a user has not selected a gift for
   def active_exchanges_without_gifts
     Exchange.find_by_sql(["SELECT exchanges.* FROM exchanges  
