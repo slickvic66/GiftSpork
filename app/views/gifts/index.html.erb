@@ -1,4 +1,5 @@
 <h2>Gift Ideas For <i><%= link_to @exchange.name, exchange_path(@exchange) %></i></h2>
+<p><%# @to_display%></p>
 <div class="clearfix">
   <div class="shopping-sidebar">
     <p><b>Drag Gift Ideas Here</b></p>
@@ -17,20 +18,22 @@
     </ul>
   </div>
   <div class="masonry-container">
-      <% @gifts.each do |gift| %>
+      <% @to_display.each do |gift| %>
         <div class="giftbox gift-brick"
-             data-giftid="<%= gift.id %>"
-             data-image="<%= gift.picture_url %>"
-             data-name="<%= gift.name %>"
-             data-price="<%= change_to_dollars(gift.price) %>" >
-          <img src=<%= gift.picture_url %> ><br>
+             data-gifturl="<%= gift["url"] %>"
+             data-giftid="<%= gift["listing_id"] %>"
+             data-image="<%= gift["MainImage"]["url_170x135"] %>"
+             data-name="<%= gift["title"].split[0..3].join(" ") %>"
+             data-price="<%= gift["price"] %>" >
+          <img src=<%= gift["MainImage"]["url_170x135"] %> ><br>
           <div class="gift-info">
-            <b><%= gift.name %></b><br>
-            Price: <%= change_to_dollars(gift.price) %>   
+            <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= gift["title"].split[0..3].join(" ") %></a></b><br>
+            Price: <%= gift["price"] %>   
           </div>
         </div>
       <% end %>
   </div>
+
 </div>
 <script>
 
