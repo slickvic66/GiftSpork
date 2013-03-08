@@ -1,38 +1,65 @@
 <% if profile_owner?(@profile) %>
     <br>
-    <% if @notifications.any? %>
-      <div id="notifications-box" class="well">
-        <h3>New Invitations</h3>
-        <% @notifications.each do |notification| %>
-          <p>Exchange: <i> <%= notification.invitation.exchange.name %></i></p>
-          <p><%=link_to "Accept Invitation", memberships_path(:exchange_id => "#{notification.invitation.exchange_id}"), :method => :post %></p>
-          <br>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="sidebar clearfix">
+      <% if @notifications.any? %>
+        <div id="notifications-box" class="well">
+          <h3>New Invitations</h3>
+          <% @notifications.each do |notification| %>
+            <p>Exchange: <i> <%= notification.invitation.exchange.name %></i></p>
+            <p><b><%=link_to "Accept Invitation", memberships_path(:exchange_id => "#{notification.invitation.exchange_id}"), :method => :post %></b>&nbsp
+              <%= link_to "Decline", '#', :class => 'decline-invite' %></p>
+            <br>
+          <% end %>
+        </div>
+      <% end %>
 
+        <div id="organized-box" class="well">
+          <h3>Exchanges Organized</h3>
+              <%= render current_user.organized_exchanges %>
+        </div>
+
+        <div id="participating-box" class="well">
+          <h3>Exchanges Joined</h3>
+              <%= render current_user.participations %>
+        </div>
+      </div>
     <div>
       <h1>Hi <%= @profile.fname %>!</h1>
     </div>
     
   <br>
-  <%= link_to "Create New Exchange!", new_exchange_path, :class => "btn btn-primary btn-large" %>
+    <%= link_to "Create New Exchange!", new_exchange_path, :class => "btn btn-primary btn-large" %>
   <div>
-  <h3>Gift Exchanges You've Organized</h3>
-    <ul>
-      <%= render current_user.organized_exchanges %>
-    </ul>
-  </div>
+    <% if current_user.gift_ideas.any? %>
+    <h3>Your Gift Ideas</h3>
+    <div class="masonry-container">
+      <%= render partial: "gift_ideas/gift_idea", 
+                 collection: current_user.gift_ideas %>
+    <% end %>
+    </div>
 
-  <h3>Gift Exchanges You're Participating In</h3>
-  <ul>
-  <%= render current_user.participations %>
-  </ul>
-  <br>
-
-  <%= link_to "All Exchanges",  exchanges_path%>
+  <%# link_to "All Exchanges",  exchanges_path%>
 
 
 <% else %>
   Not authorized to view someone else's profile
 <% end %>
+
+<script type="text/javascript">
+
+    var $container = $('.masonry-container');
+
+    $container.imagesLoaded(function() {
+      $container.masonry({
+        itemSelector: '.gift-brick:visible',
+        isAnimated: true,
+      });
+    });
+
+</script>
+
+<!-- After accepting an invite (e.g creating a membership) I will have an after_create callback on the membership look up which invitation that membership is associated with and update accepted to true
+
+On declining an invite I will have a json request to update the invitation accepted to false. I will have an after_update callback on the invitation to mark the associated notification. 
+
+Also have a js listener on all links in the invite to check if there are more unseen notifications -->
