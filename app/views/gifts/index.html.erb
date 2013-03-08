@@ -34,12 +34,30 @@
       <% end %>
   </div>
 
+  <div class="hidden-gifts">
+    <%= @hidden_away.each do |gift| %>
+    <div class="giftbox gift-brick"
+             data-gifturl="<%= gift["url"] %>"
+             data-giftid="<%= gift["listing_id"] %>"
+             data-image="<%= gift["MainImage"]["url_170x135"] %>"
+             data-name="<%= gift["title"].split[0..3].join(" ") %>"
+             data-price="<%= gift["price"] %>" >
+          <img src=<%= gift["MainImage"]["url_170x135"] %> ><br>
+          <div class="gift-info">
+            <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= gift["title"].split[0..3].join(" ") %></a></b><br>
+            Price: <%= gift["price"] %>   
+          </div>
+        </div>
+      <% end %>
+  </div>
+
 </div>
 <script>
 
   $(function(){
         var $container = $('.masonry-container');
 
+        // Load first group of images into masonry
         $container.imagesLoaded(function() {
           $container.masonry({
             itemSelector: '.gift-brick',
@@ -48,12 +66,13 @@
           });
         });
 
+        // Make gift brick dragabble 
         $(".gift-brick").draggable({
           revert: "invalid"
         });
 
-        // Need to move this code into the asset pipeline eventually
-
+        
+        // When gift brick is dropped into sidebar, keep it there and update the gift-idea model
         $(".shopping-sidebar").droppable({
           drop: function(e, ui){
             var ondrop = $.post('/gift_ideas.json', 
@@ -81,10 +100,11 @@
           }
         });
 
-        // Removes an item from a masonry container, adds it to shopping sidebar, and then reloads the masonry.
+        // Removes an item from a masonry container, adds it to shopping sidebar, and then reloads the masonry and adds another item from the hidden items
 
         function addToShopping($masonTbl, $item){
-          console.log($item);
+          var giftToAppend = $('.hidden-gifts .giftbox')[0];
+          $('.hidden-gifts .giftbox')[0].remove();
           var $giftlist = $('.shopping-sidebar ul');
           $giftlist.append($('<li>', 
                             { class:'clearfix',
@@ -95,12 +115,16 @@
                               +'<br>'
                               + $item.attr('data-price')
                           }))
-          $masonTbl.masonry('remove', $item).masonry('reload')
+          $masonTbl.masonry('remove', $item).masonry('reload').append($(giftToAppend)).masonry("appended", $(giftToAppend));
+          $('.masonry-container .giftbox').css('z-index', 999);
         };
 
         // Removes item from screen and reloads masonry
         function removeItem($masonTbl, $item){
-          $masonTbl.masonry('remove', $item).masonry('reload')
+          var giftToAppend = $('.hidden-gifts .giftbox')[0];
+          $('.hidden-gifts .giftbox')[0].remove();
+          $masonTbl.masonry('remove', $item).masonry('reload').append($(giftToAppend)).masonry("appended", $(giftToAppend));
+          $('.masonry-container .giftbox').css('z-index', 999);
         }
 
     })

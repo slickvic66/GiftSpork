@@ -8,6 +8,7 @@ class GiftsController < ApplicationController
     @gift_ideas = current_user.gift_ideas_for_exchange(@exchange)
     @etsy_gifts = get_all_listings_for_price(@exchange.max_price/100)["results"]
     @to_display = @etsy_gifts[0..8]
+    @hidden_away = @etsy_gifts[9..-1]
   end
 
   # Pretty hacky.  Meant to be done with AJAX
