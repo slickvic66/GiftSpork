@@ -82,6 +82,10 @@ class Exchange < ActiveRecord::Base
     Gift.find_by_sql(["SELECT gifts.* FROM gifts WHERE gifts.price <= :max_price", :max_price => self.max_price])
   end
 
+  def invites_outstanding
+    invitations.where('accepted is NULL')
+  end
+
   ############ Constructors ####################
 
   def make_santas

@@ -22,12 +22,20 @@ class User < ActiveRecord::Base
 
   has_many :recieved_invitations, 
            :through => :notifications,
-           :foreign_key => :associated_id
+           :source => :invitation
 
   has_many :sent_invitations,
            :foreign_key => :sender_id,
            :class_name => "Invitation",
            :dependent => :destroy
+
+  def new_invitations 
+    recieved_invitations.where('accepted is NULL')
+  end
+
+  def old_invitations
+    recieved_invitations.where('accepted is NOT NULL')
+  end
 
   def old_notifications
     notifications.where('seen = true')

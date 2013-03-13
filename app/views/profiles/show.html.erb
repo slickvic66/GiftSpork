@@ -1,13 +1,15 @@
 <% if profile_owner?(@profile) %>
     <br>
     <div class="sidebar clearfix">
-      <% if @notifications.any? %>
-        <div id="notifications-box" class="well">
+      <% if current_user.new_invitations.any? %>
+        <div id="invitations-box" class="well">
           <h3>New Invitations</h3>
-          <% @notifications.each do |notification| %>
-            <p>Exchange: <i> <%= notification.invitation.exchange.name %></i></p>
-            <p><b><%=link_to "Accept Invitation", memberships_path(:exchange_id => "#{notification.invitation.exchange_id}"), :method => :post %></b>&nbsp
-              <%= link_to "Decline", '#', :class => 'decline-invite' %></p>
+          <% current_user.new_invitations.each do |invitation| %>
+            <p>Exchange: <i> <%= invitation.exchange.name %></i></p>
+            <p>
+              <b><%=link_to "Accept Invitation", accept_path(invitation, :user_id => current_user.id), :method => :put %></b>&nbsp
+              <%= link_to "Decline", deny_path(invitation, :user_id => current_user.id), :method => :put, :class => 'decline-invite' %>
+            </p>
             <br>
           <% end %>
         </div>

@@ -14,137 +14,11 @@
 
  @import url(http://fonts.googleapis.com/css?family=Kavoon|Sanchez:400italic,400|Lemon);
 
-/* Jumbotrons
--------------------------------------------------- */
-
-/* Base class
-------------------------- */
-.jumbotron {
-  padding: 40px 0;
-  position: relative;
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
-  background: url(washedout_bg.jpg);
-  background-size: cover;
-}
-.jumbotron h1 {
-  font-size: 80px;
-  letter-spacing: 1.25px;
-  line-height: 1;
-  font-family: 'Lemon', cursive;
-}
-.jumbotron p {
-  font-size: 24px;
-  font-weight: 300;
-  line-height: 1.25;
-  margin-bottom: 30px;
-  font-family: 'Sanchez', serif;
-}
-
-/* Link styles (used on .masthead-links as well) */
-.jumbotron a {
-  color: #fff;
-  color: rgba(255,255,255,.5);
-  -webkit-transition: all .2s ease-in-out;
-     -moz-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
-}
-.jumbotron a:hover {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(255,255,255,.25);
-}
-
-/* Download button */
-.masthead .btn {
-  padding: 19px 24px;
-  font-size: 24px;
-  font-weight: 200;
-  color: #fff; /* redeclare to override the `.jumbotron a` */
-  border: 0;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-  -webkit-transition: none;
-     -moz-transition: none;
-          transition: none;
-}
-.masthead .btn:hover {
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 5px rgba(0,0,0,.25);
-}
-.masthead .btn:active {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-     -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-          box-shadow: inset 0 2px 4px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.1);
-}
-
-
-/* Pattern overlay
-------------------------- */
-.jumbotron .container {
-  position: relative;
-  z-index: 2;
-}
-.jumbotron:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAANklEQVQYV2NkIAIwEqHmPyFF/4GGMBJSBLYIlyKwCTCnYFOEogCfSSj+QTYJwwR063AqACkEAGnjBgmbf5VOAAAAAElFTkSuQmCC) repeat center center;
-  opacity: .4;
-}
-
-@media
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
-only screen and (     -o-min-device-pixel-ratio: 2/1) {
-
-  .jumbotron:after {
-    background-size: 150px 150px;
-  }
-
-}
-
-/* Masthead (docs home)
-------------------------- */
-.masthead {
-  padding: 70px 0 80px;
-  margin-bottom: 0;
-  color: #fff;
-}
-.masthead h1 {
-  font-size: 120px;
-  line-height: 1;
-  letter-spacing: -2px;
-}
-.masthead p {
-  font-size: 40px;
-  font-weight: 200;
-  line-height: 1.25;
-}
-
-/* Textual links in masthead */
-.masthead-links {
-  margin: 0;
-  list-style: none;
-}
-.masthead-links li {
-  display: inline;
-  padding: 0 10px;
-  color: rgba(255,255,255,.25);
-}
 
 @import "bootstrap";
 
-/*  Homepage stuff  */
+/*  NAVBAR  */
+
 .navbar {
   margin-bottom: 0px;
 }
@@ -183,6 +57,17 @@ body {
   padding: 15px;
 }
 
+#main {
+  position:relative;
+  min-height: 650px;
+}
+
+.alert {
+  width:30%;
+  margin-left:auto;
+  margin-right:auto;
+}
+
 .container h1 {
   font-family: 'Lemon', cursive;
 } 
@@ -203,220 +88,9 @@ body {
   float:left
 }
 
-.sidebar{
-  position:absolute;
-  right:20px;
-  top:50px;
-  width:220px;
-}
-
-/*  NOTIFICATIONS BOX  */
-
-#notifications-box {
-  top: 5%;
-  right: 2%;
-  text-align: center;
-  background-color:#A9D581;
-  border: 1px solid #AAB776;
-  line-height:10px;
-  border-radius: 0;
-  padding:2%
-}
-
-#notifications-box h3{
-  font-family: 'Sanchez', serif;
-  color: white;
-  margin-left: 20px;
-  margin-right: 20px;
-  line-height: 25px;
-
-}
-
-#notifications-box p{
-  font-family: 'Sanchez', serif;
-  color: white;
-  line-height:15px;
-}
-
-/*  ORGANIZED BOX  */
-
-#organized-box {
-  top: 5%;
-  right: 2%;
-  text-align: center;
-  background-color:rgba(234, 231, 77, 0.63);;
-  border: 1px solid #E0A933;
-  line-height:10px;
-  border-radius: 0;
-  padding:2%
-}
-
-#organized-box h3{
-  font-family: 'Sanchez', serif;
-  color: white;
-  margin-left: 20px;
-  margin-right: 20px;
-  line-height: 25px;
-
-}
-
-#organized-box p{
-  font-family: 'Sanchez', serif;
-  color: white;
-  line-height:15px;
-}
-
-/*  PARTICIPATING BOX  */
-
-#participating-box {
-  top: 5%;
-  right: 2%;
-  text-align: center;
-  background-color:#A9D581;
-  border: 1px solid #AAB776;
-  line-height:10px;
-  border-radius: 0;
-  padding:2%
-}
-
-#participating-box h3{
-  font-family: 'Sanchez', serif;
-  color: white;
-  margin-left: 20px;
-  margin-right: 20px;
-  line-height: 25px;
-
-}
-
-#participating-box p{
-  font-family: 'Sanchez', serif;
-  color: white;
-  line-height:15px;
-}
-
-#main {
-  position:relative;
-  min-height: 650px;
-}
-
-.alert {
-  width:30%;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-#exchange-info-box {
-  width: 20%;
-  position:absolute;
-  top: 5%;
-  right: 2%;
-  text-align: center;
-  background-color:rgba(234, 231, 77, 0.63);;
-  border: 1px solid #E0A933;
-  line-height:10px;
-  border-radius: 0;
-  padding:2%;
-}
-
-
 .big-delete{
   position:absolute;
   top: 5%;
   right: 2%;  
 }
 
-/* Gift Index Stuff */ 
-
-.masonry-container{
-  float:left;
-  width:680px;
-}
-
-.gift-brick{
-  margin: 10px;
-  width:175px;
-  height:140px;
-  position:relative;
-  overflow:hidden;
-  cursor:move;
-  z-index: 1;
-}
-
-.gift-brick:nth-child(n+10) {
-  display:none;
-}
-
-.gift-brick img{
-  width:100%;
-  height:auto;
-  display:block;
-}
-
-.gift-info{
-  height:60px;
-  position:absolute;
-  bottom:-60px;
-  left:0;
-  width:100%;
-  color:white;
-  line-height:1.3;
-  background-color: rgba(0,0,0,0.5);
-  -webkit-transition: bottom .4s ease-in-out;
-  padding-left:3px;
-}
-
-.gift-brick:hover .gift-info{
-  display:block;
-  bottom:0;
-}
-
-.shopping-sidebar{
-  float:right;
-  width:240px;
-  min-height: 300px;
-  text-align: center;
-  background-color:#A9D581;
-  border: 1px solid #AAB776;
-  line-height:10px;
-  border-radius: 0;
-  padding:0;
-  margin-top:10px;
-  margin-right: 10px;
-  padding-top:10px;
-  color:white;
-  padding-left: 4px;
-  padding-right:4px;
-}
-
-.ui-draggable-dragging{
-  z-index:2;
-  background-color:yellow;
-}
-
-.shopping-sidebar ul{
-  list-style-type: none;
-  width:100%;
-  margin:0;
-  font-family: Sanchez, serif;
-}
-
-
-.shopping-sidebar li{
-  background-color:rgba(255,255,255,0.5);
-  color: #282824;
-  padding: 2px;
-  margin-bottom: 5px;
-  text-align: left;
-}
-
-.shopping-sidebar li img{
-  width:50px;
-  height:auto;
-  display:block;
-  float:left;
-  margin-right: 5px;
-}
-
-.hidden-gifts{
-  display:none;
-}

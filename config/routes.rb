@@ -1,5 +1,7 @@
 Giftr::Application.routes.draw do
 
+  root to: "static_pages#home"
+
   devise_for :users, :path => "accounts", 
                      :path_names => { :sign_in => "login", 
                                       :sign_out => "logout", 
@@ -19,8 +21,8 @@ Giftr::Application.routes.draw do
 
   resources :gift_ideas, :only => [:index, :create]
 
-
-  root to: "static_pages#home"
+  put "/accept/:id", to: "invitations#accept_invite", :as => :accept 
+  put "/deny/:id", to: "invitations#deny_invite", :as => :deny
 
   get "/contact", to: "static_pages#contact"
   get "/faq", to: "static_pages#faq"

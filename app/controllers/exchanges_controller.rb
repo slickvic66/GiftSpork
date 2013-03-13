@@ -24,8 +24,15 @@ class ExchangesController < ApplicationController
       flash[:success] = "Exchange created!"
       @exchange.invitations.each do |invitation|
         if invitation.is_registered?
+          # They have an account, so send an invitation email and create a new notification
           InvitationMailer.notify_of_invitation(invitation,new_user_session_url).deliver
+
+          # Notifies the invite recipient internally
+          Notification.create(:associated_id => invitation.id,
+                              :user_id => User.find_by_email(invitation.invited_email).id,
+                              :kind => "invite")
         else
+          # They don't have an account yet.  Just send email, notification will be created on signup
           InvitationMailer.invite_to_service(invitation, new_user_registration_url(:invitation_id => invitation.token)).deliver
         end
       end
