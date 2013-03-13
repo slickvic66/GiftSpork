@@ -29,6 +29,14 @@ class User < ActiveRecord::Base
            :class_name => "Invitation",
            :dependent => :destroy
 
+  def old_notifications
+    notifications.where('seen = true')
+  end
+
+  def new_notifications
+    notifications.where('seen = false')
+  end
+
   ########## Exchange Associations  ########################
 
   # Joins user and exchange
@@ -180,7 +188,7 @@ class User < ActiveRecord::Base
       Invitation.where("token = ?", Digest::MD5.hexdigest(self.email)).each {|invite| all_invites << invite}
 
       all_invites.each do |invite|
-        Notification.create(user_id:self.id, kind:"invite", associated_id: invite.exchange_id)
+        Notification.create(user_id:self.id, kind:"invite", associated_id: invite.id)
       end
     end
   end

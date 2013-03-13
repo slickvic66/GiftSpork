@@ -20,6 +20,8 @@ class ProfilesController < ApplicationController
   def show
       @profile = Profile.find_by_user_id(params[:user_id])
       @notifications = @profile.user.notifications
+      @old_notifications = @profile.user.old_notifications
+      @new_notifications = @profile.user.new_notifications
   end
 
   def edit

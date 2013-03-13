@@ -1,6 +1,6 @@
 class Notification < ActiveRecord::Base
   # Right now this is just a notification for new invitations but it will be turned polymorphic once I can 
-  attr_accessible :associated_id, :kind, :user_id
+  attr_accessible :associated_id, :kind, :user_id, :seen
 
   belongs_to :user
 
