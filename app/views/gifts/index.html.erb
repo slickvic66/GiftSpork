@@ -9,7 +9,7 @@
         <% @gift_ideas.each do |giftidea| %>
           <li class="clearfix">
             <img src="<%= giftidea.picture_url %>">
-            <%= giftidea.name %>
+            <%= raw(giftidea.name) %>
             <br>
             <%= giftidea.price %>
           </li>
@@ -27,7 +27,7 @@
              data-price="<%= gift["price"] %>" >
           <img src=<%= gift["MainImage"]["url_170x135"] %> ><br>
           <div class="gift-info">
-            <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= gift["title"].split[0..3].join(" ") %></a></b><br>
+            <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= raw(gift["title"].split[0..3].join(" ")) %></a></b><br>
             Price: <%= gift["price"] %>   
           </div>
         </div>

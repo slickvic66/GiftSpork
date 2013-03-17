@@ -6,7 +6,7 @@
      data-price="<%= gift_idea.price %>" >
   <img src=<%= gift_idea.picture_url %> ><br>
   <div class="gift-info">
-    <b><a style="color:white" href="<%= gift_idea.url %>" target="_blank"><%= gift_idea.name %></a></b><br>
+    <b><a style="color:white" href="<%= gift_idea.url %>" target="_blank"><%= raw(gift_idea.name) %></a></b><br>
     Price: <%= gift_idea.price %>   
   </div>
 </div>
