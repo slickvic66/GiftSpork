@@ -19,7 +19,7 @@ Giftr::Application.routes.draw do
       end
   end
 
-  resources :gift_ideas, :only => [:index, :create]
+  resources :gift_ideas, :only => [:index, :create, :destroy]
 
   put "/accept/:id", to: "invitations#accept_invite", :as => :accept 
   put "/deny/:id", to: "invitations#deny_invite", :as => :deny

@@ -84,6 +84,7 @@
   padding: 2px;
   margin-bottom: 5px;
   text-align: left;
+  position: relative;
 }
 
 .shopping-sidebar li img{
@@ -96,4 +97,17 @@
 
 .hidden-gifts{
   display:none;
+}
+
+.shopping-sidebar li:hover .giftidea-remove{
+  opacity: 0.8;
+}
+
+.giftidea-remove{
+  position:absolute;
+  bottom: 2px;
+  right: 5px;
+  opacity: 0;
+  -webkit-transition: opacity .4s ease-in-out;
+  cursor: pointer;
 }
