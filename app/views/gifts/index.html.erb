@@ -1,150 +1,76 @@
-<h2>Gift Ideas For <i><%= link_to @exchange.name, exchange_path(@exchange) %></i></h2>
-<p><%# @to_display%></p>
+<h2>Gift Ideas For 
+    <i><%= link_to @exchange.name, exchange_path(@exchange) %></i>
+</h2>
 <div class="clearfix">
   <div class="shopping-sidebar">
     <p><b>Drag Gift Ideas Here</b></p>
     <ul>
       <!-- drag gift ideas here or have them populate from prev-->
       <% if @gift_ideas.any? %>
-        <% @gift_ideas.each do |giftidea| %>
-          <li class="clearfix" data-giftidea-id="<%= giftidea.id %>">
-            <img src="<%= giftidea.picture_url %>">
-            <%= raw(giftidea.name) %>
-            <br>
-            <%= giftidea.price %>
-            <a class='giftidea-remove'><i class='icon-remove-circle'></i></a>
-          </li>
-        <% end %>
+        <%= render partial: "gift_ideas/gift_idea_list_item",
+                   collection: @gift_ideas,
+                   :as => :giftidea %>
       <% end %>
     </ul>
   </div>
   <div class="masonry-container">
-      <% @etsy_gifts.each do |gift| %>
-        <div class="giftbox gift-brick"
-             data-gifturl="<%= gift["url"] %>"
-             data-giftid="<%= gift["listing_id"] %>"
-             data-image="<%= gift["MainImage"]["url_170x135"] %>"
-             data-name="<%= gift["title"].split[0..3].join(" ") %>"
-             data-price="<%= gift["price"] %>" >
-          <img src=<%= gift["MainImage"]["url_170x135"] %> ><br>
-          <div class="gift-info">
-            <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= raw(gift["title"].split[0..3].join(" ")) %></a></b><br>
-            Price: <%= gift["price"] %>   
-          </div>
-        </div>
-      <% end %>
+      <%= render partial: "gifts/etsy_gift",
+                 collection: @etsy_gifts,
+                 :as => :gift %>
   </div>
-
 </div>
+
 <script>
-
   $(function(){
-        var $container = $('.masonry-container');
+    /* MASONRY FUNCTIONS */
+    // Must remain in view because otherwise there are refresh errors
 
-        // Load first group of images into masonry
-        $container.imagesLoaded(function() {
-          $container.masonry({
-            itemSelector: '.gift-brick:visible',
-            isAnimated: true,
-            columnWidth: 35
-          });
+    var $container = $('.masonry-container');
+
+    // Load first group of images into masonry
+    $container.imagesLoaded(function() {
+      $container.masonry({
+        itemSelector: '.gift-brick:visible',
+        isAnimated: true,
+        columnWidth: 35
+      });
+    });
+
+    // Removes item from screen and reloads masonry
+    function removeItem($masonTbl, $item){
+      $masonTbl.masonry('remove', $item).masonry('reload');
+    };
+
+    /* JQUERY UI FUNCTIONS */
+    // Need to remain in view to pass erb elements to javascript
+
+    // Make gift brick dragabble 
+    $(".gift-brick").draggable({
+      revert: "invalid",
+      containment: "document"
+    });
+
+    
+    // When gift brick is dropped into sidebar, keep it there and update the gift-idea model
+    $(".shopping-sidebar").droppable({
+      drop: function(e, ui){
+        var ondrop = GI.postGiftIdea(ui.draggable,
+                                    <%= current_user.id %>,
+                                    <%= @exchange.id %>,
+                                    $container)
+
+        ondrop.fail(function(response){
+          console.log("Fail");
+          removeItem($container, ui.draggable)
         });
 
-        // Add click handlers to giftitem-remove a tags already on page
-        addGiftIdeaRemoveHandler($('.giftidea-remove'))
-
-        // Make gift brick dragabble 
-        $(".gift-brick").draggable({
-          revert: "invalid",
-          containment: "document"
+        ondrop.always(function(response){
+          console.log("post was attempted");
         });
+      }
+    });
 
-        
-        // When gift brick is dropped into sidebar, keep it there and update the gift-idea model
-        $(".shopping-sidebar").droppable({
-          drop: function(e, ui){
-            var ondrop = $.post('/gift_ideas.json', 
-                               {
-                                  giftidea: {
-                                    user_id: <%= current_user.id %>,
-                                    exchange_id: <%= @exchange.id %>,
-                                    gift_id: ui.draggable.attr('data-giftid'),
-                                    url: ui.draggable.attr('data-gifturl'),
-                                    name: ui.draggable.attr('data-name'),
-                                    price: ui.draggable.attr('data-draggableprice'),
-                                    picture_url: ui.draggable.attr('data-image')
-                                  }
-                                },
-                                function(response){
-                                  console.log("Success");
-                                  addToShopping($container, ui.draggable, response);
-                                }
-                                );
-            ondrop.fail(function(response){
-              console.log("Fail");
-              removeItem($container, ui.draggable)
-            });
-            ondrop.always(function(response){
-              console.log("post was attempted");
-            });
-          }
-        });
-        
-        function addGiftIdeaRemoveHandler($element){
-          console.log($element);
-          $element.click(function(){
-            var clicked = $(this).parent();
-            var giftId = clicked.attr('data-giftidea-id');
-            console.log(clicked);
-            console.log(giftId);
-            $.ajax({
-              url:'/gift_ideas/'+giftId,
-              type: 'post',
-              data:{'_method':'delete'},
-              success: function(response){
-                console.log('success');
-                removeFromShopping($(clicked));
-              }
-            })
-          });
-        }
-
-        // Removes an item from a masonry container, adds it to shopping sidebar, and then reloads the masonry so a previously hidden item can bubble up from below
-
-        function addToShopping($masonTbl, $item, giftIdeaId){
-          var $giftlist = $('.shopping-sidebar ul');
-          var $itemToAdd = $('<li>', 
-                            { class:'clearfix',
-                              html: 
-                                '<img src='
-                                + $item.attr('data-image')
-                                + '>'
-                                + $item.attr('data-name')
-                                +'<br>'
-                                + $item.attr('data-price')
-                                + '<a class=\'giftidea-remove\'><i class=\'icon-remove-circle\'></i></a>'
-                          }).attr('data-giftidea-id', giftIdeaId);
-
-          $giftlist.append($itemToAdd);
-
-          // The handler can only be added to the list elements a tag
-          var $newRemoveTag= $itemToAdd.children('.giftidea-remove');
-          addGiftIdeaRemoveHandler($newRemoveTag);
-
-          $masonTbl.masonry('remove', $item).masonry('reload');
-        };
-
-        // Removes item from gift idea list
-        function removeFromShopping($item){
-          $item.fadeOut(function(){
-            $item.remove().end();
-          })
-        };
-
-        // Removes item from screen and reloads masonry
-        function removeItem($masonTbl, $item){
-          $masonTbl.masonry('remove', $item).masonry('reload');
-        };
-
-    })
+    /* ALL OTHER JS THIS VIEW IN assets/javascripts/gifts.js*/
+    GI.start(); 
+  })
 </script>

@@ -1,0 +1,6 @@
+<p>Exchange: <i> <%= invitation.exchange.name %></i></p>
+<p>
+  <b><%=link_to "Accept Invitation", accept_path(invitation, :user_id => current_user.id), :method => :put %></b>&nbsp
+  <%= link_to "Decline", deny_path(invitation, :user_id => current_user.id), :method => :put, :class => 'decline-invite' %>
+</p>
+<br>

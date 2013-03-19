@@ -1,0 +1,12 @@
+<div class="giftbox gift-brick"
+  data-gifturl="<%= gift["url"] %>"
+  data-giftid="<%= gift["listing_id"] %>"
+  data-image="<%= gift["MainImage"]["url_170x135"] %>"
+  data-name="<%= gift["title"].split[0..3].join(" ") %>"
+  data-price="<%= gift["price"] %>" >
+  <img src=<%= gift["MainImage"]["url_170x135"] %> ><br>
+  <div class="gift-info">
+    <b><a style="color:white" href="<%= gift["url"] %>" target="_blank"><%= raw(gift["title"].split[0..3].join(" ")) %></a></b><br>
+    Price: <%= gift["price"] %>   
+  </div>
+</div>

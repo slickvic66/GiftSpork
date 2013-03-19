@@ -1,36 +1,34 @@
 <% if profile_owner?(@profile) %>
-    <br>
-    <div class="sidebar clearfix">
-      <% if current_user.new_invitations.any? %>
-        <div id="invitations-box" class="well">
-          <h3>New Invitations</h3>
-          <% current_user.new_invitations.each do |invitation| %>
-            <p>Exchange: <i> <%= invitation.exchange.name %></i></p>
-            <p>
-              <b><%=link_to "Accept Invitation", accept_path(invitation, :user_id => current_user.id), :method => :put %></b>&nbsp
-              <%= link_to "Decline", deny_path(invitation, :user_id => current_user.id), :method => :put, :class => 'decline-invite' %>
-            </p>
-            <br>
-          <% end %>
-        </div>
-      <% end %>
-
-        <div id="organized-box" class="well">
-          <h3>Exchanges Organized</h3>
-              <%= render current_user.organized_exchanges %>
-        </div>
-
-        <div id="participating-box" class="well">
-          <h3>Exchanges Joined</h3>
-              <%= render current_user.participations %>
-        </div>
-      </div>
-    <div>
-      <h1>Hi <%= @profile.fname %>!</h1>
-    </div>
-    
   <br>
-    <%= link_to "Create New Exchange!", new_exchange_path, :class => "btn btn-primary btn-large" %>
+  <div class="sidebar clearfix">
+    <% if current_user.new_invitations.any? %>
+      <div id="invitations-box" class="well">
+        <h3>New Invitations</h3>
+        <%= render partial: "invitations/invitation",
+                   collection: current_user.new_invitations,
+                   :as => :invitation %>
+      </div>
+    <% end %>
+
+    <div id="organized-box" class="well">
+      <h3>Exchanges Organized</h3>
+      <%= render current_user.organized_exchanges %>
+    </div>
+
+    <div id="participating-box" class="well">
+      <h3>Exchanges Joined</h3>
+      <%= render current_user.participations %>
+    </div>
+  </div>
+
+  <div>
+    <h1>Hi <%= @profile.fname %>!</h1>
+  </div>
+
+  <br>
+  <%= link_to "Create New Exchange!", new_exchange_path, 
+      :class => "btn btn-primary btn-large" %>
+
   <div>
     <% if current_user.gift_ideas.any? %>
     <h3>Your Gift Ideas</h3>
@@ -38,10 +36,9 @@
       <%= render partial: "gift_ideas/gift_idea", 
                  collection: current_user.gift_ideas %>
     <% end %>
-    </div>
+  </div>
 
   <%# link_to "All Exchanges",  exchanges_path%>
-
 
 <% else %>
   Not authorized to view someone else's profile
