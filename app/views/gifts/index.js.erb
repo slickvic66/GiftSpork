@@ -1,0 +1,50 @@
+// Renders the newest page of results and when clicking a paginated link and binds all the necessary masonry and jquery ui functionality to the new elements on the screen
+
+$(function(){
+  var $container = $('.masonry-container');
+
+  $container.html('<%= escape_javascript(render partial:"gifts/etsy_gift", collection: @etsy_gifts, :as => :gift) %>');
+  $('#paginator').html('<%= escape_javascript(paginate(@etsy_gifts, :remote => true).to_s) %>');
+
+  $container.masonry('reload');
+
+  // Load images into masonry
+  $container.imagesLoaded(function() {
+    $container.masonry({
+      itemSelector: '.gift-brick:visible',
+      isAnimated: true,
+      columnWidth: 35
+    });
+  });
+
+  // Removes item from screen and reloads masonry
+  function removeItem($masonTbl, $item){
+    $masonTbl.masonry('remove', $item).masonry('reload');
+  };
+
+// Make gift brick dragabble 
+  $(".gift-brick").draggable({
+    revert: "invalid",
+    containment: "document"
+  });
+
+    
+  // When gift brick is dropped into sidebar, keep it there and update the gift-idea model
+  $(".shopping-sidebar").droppable({
+    drop: function(e, ui){
+      var ondrop = GI.postGiftIdea(ui.draggable,
+                                  <%= current_user.id %>,
+                                  <%= @exchange.id %>,
+                                  $container)
+
+      ondrop.fail(function(response){
+        console.log("Fail");
+        removeItem($container, ui.draggable)
+      });
+
+      ondrop.always(function(response){
+        console.log("post was attempted");
+      });
+    }
+  });
+});

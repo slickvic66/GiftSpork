@@ -5,7 +5,8 @@ class GiftsController < ApplicationController
     @exchange = Exchange.find(params[:exchange_id])
     @current_gift = current_user.gift_on_current_exchange(@exchange).first
     @gift_ideas = current_user.gift_ideas_for_exchange(@exchange)
-    @etsy_gifts = get_all_listings_for_price(@exchange.max_price/100)["results"]
+    @etsy_search_results = get_all_listings_for_price(@exchange.max_price/100)["results"]
+    @etsy_gifts = Kaminari.paginate_array(@etsy_search_results).page(params[:page]).per(9)
   end
 
 private

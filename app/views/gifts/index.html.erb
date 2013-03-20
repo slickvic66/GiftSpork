@@ -13,6 +13,9 @@
       <% end %>
     </ul>
   </div>
+  <div id="paginator">
+    <%= paginate @etsy_gifts, :remote => true %>
+  </div>
   <div class="masonry-container">
       <%= render partial: "gifts/etsy_gift",
                  collection: @etsy_gifts,
