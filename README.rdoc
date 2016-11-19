@@ -1,3 +1,3 @@
-== Welcome to Giftr
+== Welcome to GiftSpork
 
-Giftr is a rails apps that aims to make it easier to organize white elephant gift exchanges and secret santa gift exchanges.  
+GiftSpork is a rails apps that aims to make it easier to organize white elephant gift exchanges and secret santa gift exchanges.  
